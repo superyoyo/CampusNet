@@ -13,19 +13,27 @@ public class IResponse {
     }
 
     public int getInt(String key){
-        return (int)mData.get(key);
-    }
-
-    public float getFloat(String key){
-        return (float)mData.get(key);
+        return (int) mData.get(key);
     }
 
     public long getLong(String key){
-        return (long)mData.get(key);
+        return (long) mData.get(key);
+    }
+
+    public float getFloat(String key){
+        return (float) mData.get(key);
+    }
+
+    public double getDouble(String key){
+        return (float) mData.get(key);
     }
 
     public String getString(String key){
-        return (String)mData.get(key);
+        return (String) mData.get(key);
+    }
+
+    public boolean getBoolean(String key){
+        return (boolean) mData.get(key);
     }
 
     public List getList(String key){

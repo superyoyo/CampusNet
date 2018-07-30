@@ -45,6 +45,30 @@ public class IRequest {
         return mAction;
     }
 
+    public int getInt(String key){
+        return (int) mParams.get(key);
+    }
+
+    public long getLong(String key){
+        return (long) mParams.get(key);
+    }
+
+    public float getFloat(String key){
+        return (float) mParams.get(key);
+    }
+
+    public double getDouble(String key){
+        return (float) mParams.get(key);
+    }
+
+    public String getString(String key){
+        return (String) mParams.get(key);
+    }
+
+    public boolean getBoolean(String key){
+        return (boolean) mParams.get(key);
+    }
+
     public Object get(String key){
         return mParams.get(key);
     }

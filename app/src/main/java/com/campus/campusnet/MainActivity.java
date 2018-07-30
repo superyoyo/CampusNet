@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         IRequest request = IRequest.obtain()
-                                .action(2)
+                                .action(3)
                                 .initParams(response.getData())
                                 .add("account", response.getString("account"))
                                 .add("password", response.getString("password"));
