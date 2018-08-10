@@ -23,7 +23,7 @@ public class EditViewObserver extends ViewObserver {
     }
 
     @Override
-    public void initViewLogic(View view, NgModel ngModel, String property) {
+    public void initViewLogic(View view, final NgModel ngModel, final String property) {
         EditText editText = (EditText)view;
         editText.addTextChangedListener(new TextWatcher() {
             @Override

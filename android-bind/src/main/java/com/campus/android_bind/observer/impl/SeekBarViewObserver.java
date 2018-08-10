@@ -20,7 +20,7 @@ public class SeekBarViewObserver extends ViewObserver {
     }
 
     @Override
-    public void initViewLogic(View view, NgModel ngModel, String property) {
+    public void initViewLogic(View view, final NgModel ngModel, final String property) {
         SeekBar sb = (SeekBar)view;
         sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

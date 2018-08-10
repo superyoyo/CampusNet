@@ -20,7 +20,7 @@ public class CheckBoxViewObserver extends ViewObserver {
     }
 
     @Override
-    public void initViewLogic(View view, NgModel ngModel, String property) {
+    public void initViewLogic(View view, final NgModel ngModel, final String property) {
         CheckBox checkBox = (CheckBox)view;
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

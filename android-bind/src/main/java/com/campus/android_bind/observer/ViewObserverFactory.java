@@ -60,11 +60,7 @@ public class ViewObserverFactory {
 
     public ViewObserver createViewObserver(View view, NgModel ngModel, String perproty){
         ViewObserver viewObserver = null;
-        /*if(mCachedViewObservers.get(view.getClass().getName()) != null){
-            viewObserver = mCachedViewObservers.get(view.getClass().getName());
-            viewObserver.reInit(view, ngModel, perproty);
-            return viewObserver;
-        }*/
+
         if(mViewObserverFactory2 != null){
             viewObserver = mViewObserverFactory2.createViewObserver(view, ngModel, perproty);
         }

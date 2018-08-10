@@ -10,8 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.bluelinelabs.logansquare.LoganSquare;
-import com.campus.android_bind.BuildConfig;
 import com.campus.android_bind.adapter.CommonAdapter;
 import com.campus.android_bind.observer.AllPropertyObserver;
 import com.campus.android_bind.observer.PropertyObserver;
@@ -20,7 +18,6 @@ import com.campus.android_bind.observer.ViewObserverFactory;
 import com.campus.android_bind.observer.impl.NgRecyclerViewObserver;
 import com.campus.android_bind.subject.EventSubject;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -173,7 +170,7 @@ public class NgGo {
         Log.d(TAG, tag);
         String[] params = tag.split(";");
         try {
-            NgBindTag ngBindTag = new NgBindTag();
+            final NgBindTag ngBindTag = new NgBindTag();
             for(String item : params){
                 String[] data = item.split("->");
                 if(data[0].equals("model")){

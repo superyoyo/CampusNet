@@ -21,7 +21,7 @@ public class SwitchViewObserver extends ViewObserver {
     }
 
     @Override
-    public void initViewLogic(View view, NgModel ngModel, String property) {
+    public void initViewLogic(View view, final NgModel ngModel, final String property) {
         Switch aSwitch = (Switch)view;
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
