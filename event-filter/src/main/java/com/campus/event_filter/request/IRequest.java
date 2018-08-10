@@ -108,10 +108,6 @@ public class IRequest {
         IServelet.getInstance().onRequest(this, inMode, outMode);
     }
 
-    public IRequest next(@MODE_RANGE int inMode, ICallback callback){
-        return next(inMode, inMode, callback);
-    }
-
     public IRequest next(@MODE_RANGE int inMode, @MODE_RANGE int outMode, ICallback callback){
         if(mFirst == null){
             mFirst = this;

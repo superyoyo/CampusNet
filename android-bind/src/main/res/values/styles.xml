@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ngRecyclerView">
+        <attr name="type" format="string"/>
+        <attr name="orientation" format="string"/>
+        <attr name="span" format="integer"/>
+        <attr name="divider_height" format="dimension|reference"/>
+        <attr name="divider_color" format="color|reference"/>
+
+        <attr name="layoutId" format="reference"/>
+        <attr name="model" format="string"/>
+    </declare-styleable>
+</resources>

@@ -1,1 +1,1 @@
-include ':app', ':event-filter', ':user', ':router', ':net'
+include ':app', ':event-filter', ':user', ':router', ':net', ':android-bind'
