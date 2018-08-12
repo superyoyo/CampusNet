@@ -69,6 +69,7 @@ public class NgRecyclerViewObserver extends ViewObserver {
                 mRecyclerView.setBackgroundDrawable(ngRecyclerView.getBackground());
             }
         }
+        mCommonAdapter = new CommonAdapter(mRecyclerView.getId(), mRecyclerView.getContext());
         //设置adapter
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
@@ -87,8 +88,7 @@ public class NgRecyclerViewObserver extends ViewObserver {
                     j --;
                     m--;
                 }
-
-                mCommonAdapter = new CommonAdapter(views, mRecyclerView.getId(), mRecyclerView.getContext());
+                mCommonAdapter.setViews(views);
                 //为recyclerview设置适配器
                 mRecyclerView.setAdapter(mCommonAdapter);
             }

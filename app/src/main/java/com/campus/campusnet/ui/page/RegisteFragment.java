@@ -6,7 +6,9 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.campus.android_bind.adapter.CommonAdapter;
 import com.campus.android_bind.bean.NgGo;
 import com.campus.android_bind.bean.NgModel;
 import com.campus.android_bind.observer.AllPropertyObserver;
@@ -22,6 +24,7 @@ public class RegisteFragment extends IFragment {
     private NgGo mNgGo;
     private NgModel mNgUser;
     private NgModel mNgPage;
+    private CommonAdapter mCommonAdapter;
     private AllPropertyObserver mAllPropertyObserver = new AllPropertyObserver(){
         @Override
         public void dataChange(String tag, Object object) {
@@ -50,6 +53,24 @@ public class RegisteFragment extends IFragment {
                 .addNgModel(mNgPage)
                 .addAllPropertyObserver(mAllPropertyObserver)
                 .inflateAndBind();
+        initAdapter();
+    }
+
+    private void initAdapter(){
+        mCommonAdapter = mNgGo.getRecyclerAdapter(R.id.rv_nearschools);
+        mCommonAdapter.setCommonAdapterInterface(new CommonAdapter.CommonAdapterInterface() {
+            @Override
+            public void handleItem(int rvId, CommonAdapter.CommonHolder holder, int position, final NgModel item) {
+                holder.getItemView().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //TODO 用户点击了学校
+                        Toast.makeText(getActivity(), item.getValue("name").toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+        });
     }
 
     public void backToLogin(View view){
@@ -69,7 +90,7 @@ public class RegisteFragment extends IFragment {
         List<NgModel> schools = new ArrayList<>();
         for(int i = 0; i < 6; i++){
             NgModel school = new NgModel("school");
-            school.addParams("logo", "https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=802597730,4249290214&fm=58&bpow=1024&bpoh=1024")
+            school.addParams("logo", "http://t2.hddhhn.com/uploads/tu/201610/198/hkgip2b102z.jpg")
                     .addParams("name", "北京大学");
             schools.add(school);
         }

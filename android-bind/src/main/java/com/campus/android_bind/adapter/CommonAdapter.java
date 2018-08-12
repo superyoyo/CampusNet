@@ -30,16 +30,20 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonAdapter.CommonHold
     private int mRvId = View.NO_ID;//当前RecyclerView的ID
     private HashMap<String, Integer> mViewTypes;
 
-    public CommonAdapter(List<NgItemView> views, int rvId, Context context) {
+    public CommonAdapter(int rvId, Context context) {
         mViewTypes = new HashMap<>();
         mRvId = rvId;
-        mViews = views;
         mList = new ArrayList<>();
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+    public void setViews(List<NgItemView> views) {
+        mViews = views;
+    }
+
     public void setCommonAdapterInterface(CommonAdapterInterface commonAdapterInterface) {
         this.commonAdapterInterface = commonAdapterInterface;
+        notifyDataSetChanged();
     }
 
     public void setCommonAdapterOverrideInterface(CommonAdapterOverrideInterface commonAdapterOverrideInterface) {

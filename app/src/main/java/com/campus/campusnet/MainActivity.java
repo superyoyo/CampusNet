@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         ImageLoader.getInstance().setListener(new ImageLoader.Listener() {
             @Override
             public void loadImage(ImageView imageView, String url) {
-                Glide.with(imageView.getContext()).load(url).into(imageView);
+                Glide.with(MainActivity.this).load(url).into(imageView);
             }
         });
         initRouter();
