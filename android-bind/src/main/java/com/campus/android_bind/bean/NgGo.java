@@ -63,8 +63,7 @@ public class NgGo {
                     Log.d(TAG, "name:" + name + " e:" + e.getMessage());
                     return null;
                 }
-
-                paraseViewTag(view);
+                view = paraseViewTag(view);
                 return view;
 
             }
@@ -78,6 +77,9 @@ public class NgGo {
 
     public NgGo(View view) {
         parent = view;
+        adapters = new SparseArray<>();
+        subjects = new HashMap<>();
+        inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     //添加ngModel
@@ -101,7 +103,7 @@ public class NgGo {
     }
 
     public void bind() {
-        if (parent != null) {
+        if (parent == null) {
             Toast.makeText(inflater.getContext(), "view不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -148,22 +150,22 @@ public class NgGo {
     }
 
     private void paraseViewGroup(ViewGroup viewGroup) {
-        for (int i = 0, n = ((ViewGroup) parent).getChildCount(); i < n; i++) {
-            View itemView = ((ViewGroup) parent).getChildAt(i);
-            paraseViewTag(itemView);
+        for (int i = 0, n = viewGroup.getChildCount(); i < n; i++) {
+            View itemView = viewGroup.getChildAt(i);
+            itemView = paraseViewTag(itemView);
             if (itemView instanceof ViewGroup) {
                 paraseViewGroup((ViewGroup) itemView);
             }
         }
     }
 
-    private boolean paraseViewTag(View view) {
+    private View paraseViewTag(View view) {
         String tag = (String) view.getTag();
         if(TextUtils.isEmpty(tag)){
-           return false;
+           return view;
         }
         if (!tag.startsWith("@{") && !tag.endsWith("}")) {
-            return false;
+            return view;
         }
 
         tag = tag.substring(2, tag.length() - 1);
@@ -197,7 +199,7 @@ public class NgGo {
             }
 
             if (viewObserver instanceof NgRecyclerViewObserver) {
-                view = ((NgRecyclerViewObserver) viewObserver).getRecyclerView();
+                view = viewObserver.getView();
                 if (view.getId() != View.NO_ID) {
                     adapters.put(view.getId(), ((NgRecyclerViewObserver) viewObserver)
                             .getCommonAdapter());
@@ -244,6 +246,6 @@ public class NgGo {
             Log.d(TAG, "view 的tag格式错误");
         }
 
-        return true;
+        return view;
     }
 }

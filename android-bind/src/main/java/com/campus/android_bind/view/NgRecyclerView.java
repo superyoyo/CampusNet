@@ -5,6 +5,8 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.campus.android_bind.R;
@@ -13,14 +15,12 @@ import com.campus.android_bind.R;
  * Created by jacklee on 17/1/20.
  */
 
-public class NgRecyclerView extends LinearLayout {
+public class NgRecyclerView extends ViewGroup {
     private String type;
     private String orientation;
     private int span;
     private int divider_color;
     private int divider;
-    private int OrientationVertical = 0;
-    private int OrientationHorizontal= 1;
     public NgRecyclerView(Context context) {
         super(context);
     }
@@ -84,4 +84,7 @@ public class NgRecyclerView extends LinearLayout {
     public int getDivider() {
         return divider;
     }
+
+    @Override
+    protected void onLayout(boolean b, int i, int i1, int i2, int i3) {}
 }

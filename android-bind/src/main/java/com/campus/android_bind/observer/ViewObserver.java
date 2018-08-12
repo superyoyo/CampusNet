@@ -27,6 +27,9 @@ public abstract class ViewObserver implements IObserver {
         mNgModel = ngModel;
         mProperty = property;
         initViewLogic(mView, mNgModel, mProperty);
+        if(mNgModel != null && mNgModel.getValue(mProperty) != null){
+            dataChange(mNgModel, mNgModel.getValue(property));
+        }
     }
 
     public void reInit(View view, NgModel ngModel, String property) {
@@ -42,6 +45,10 @@ public abstract class ViewObserver implements IObserver {
 
     public String getProperty() {
         return mProperty;
+    }
+
+    protected void setView(View view) {
+        mView = view;
     }
 
     @Override

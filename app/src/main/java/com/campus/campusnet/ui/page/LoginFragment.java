@@ -11,8 +11,10 @@ import android.view.ViewGroup;
 import com.campus.android_bind.bean.NgGo;
 import com.campus.android_bind.bean.NgModel;
 import com.campus.android_bind.observer.AllPropertyObserver;
+import com.campus.campusnet.R;
+import com.campus.campusnet.ui.state.NavState;
+import com.campus.william.router.logic.RouterParams;
 import com.campus.william.router.ui.IFragment;
-import com.campus.william.user.R;
 
 import java.util.HashMap;
 
@@ -64,14 +66,6 @@ public class LoginFragment extends IFragment {
         mContainer = mNgGo.inflateAndBind();
     }
 
-    public void login(View view) {
-
-    }
-
-    public void forgetPassword(View view) {
-
-    }
-
     public void deletePassword(View view) {
         mNgModel.addParams("password", "");
     }
@@ -80,7 +74,26 @@ public class LoginFragment extends IFragment {
         mNgModel.addParams("phone", "");
     }
 
-    public void back(View view) {
-        routerProvider.back();
+    public void login(View view) {
+        //TODO 用户点击了登陆
+    }
+
+    public void forgetPassword(View view) {
+        //TODO 忘记密码
+    }
+
+    public void userRegiste(View view){
+        routerProvider.setState(new RouterParams()
+                .setState(NavState.REGISTE)
+                .setLaunchMode(RouterParams.LAUNCH_MODE.standard)
+                .withAnimation(R.anim.anim_entry_from_bottom, R.anim.anim_leave_from_bottom));
+    }
+
+    public void lookUp(View view){
+        //TODO 逛一逛
+    }
+
+    public void openUserAgreement(View view){
+        //TODO 打开用户协议
     }
 }

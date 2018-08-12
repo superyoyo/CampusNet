@@ -6,9 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.campus.android_bind.util.ImageLoader;
 import com.campus.campusnet.ui.page.LoginFragment;
+import com.campus.campusnet.ui.page.RegisteFragment;
 import com.campus.campusnet.ui.state.NavState;
 import com.campus.event_filter.callback.ICallback;
 import com.campus.event_filter.request.IRequest;
@@ -24,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //透明状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             //透明导航栏
@@ -41,13 +45,20 @@ public class MainActivity extends AppCompatActivity {
             //Apply the specified drawable or color resource to the system navigation bar.
             //给导航栏设置资源
             tintManager.setNavigationBarTintResource(R.color.topbar_bkg);
-        }
+        }*/
+        ImageLoader.getInstance().setListener(new ImageLoader.Listener() {
+            @Override
+            public void loadImage(ImageView imageView, String url) {
+                Glide.with(imageView.getContext()).load(url).into(imageView);
+            }
+        });
         initRouter();
     }
 
     private void initRouter(){
         RouterProvider routerProvider = new RouterProvider(android.R.id.content, getSupportFragmentManager());
         routerProvider.registe(LoginFragment.class, NavState.LOGIN, "登录");
+        routerProvider.registe(RegisteFragment.class, NavState.REGISTE, "注册");
 
         routerProvider.setState(new RouterParams().setState(NavState.LOGIN).setLaunchMode(RouterParams.LAUNCH_MODE.standard));
     }

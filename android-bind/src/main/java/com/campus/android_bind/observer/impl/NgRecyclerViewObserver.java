@@ -2,6 +2,8 @@ package com.campus.android_bind.observer.impl;
 
 import android.content.Context;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,27 +39,6 @@ public class NgRecyclerViewObserver extends ViewObserver {
     @Override
     public void initViewLogic(View view, NgModel ngModel, String property) {
         mRecyclerView = new RecyclerView(view.getContext());
-        mRecyclerView.setLayoutParams(view.getLayoutParams());
-        List<NgItemView> views = new ArrayList<>();
-        //3.实例化该viewgroup的所有item
-        for(int j = 0, m = ((ViewGroup) view).getChildCount(); j < m; j++){
-            View item_view = ((ViewGroup) view).getChildAt(j);
-            if(item_view instanceof NgItemView){
-                views.add((NgItemView)item_view);
-            }
-
-            //将该子view从父view中移除，不然，在CommonAdapter中把该子view当item时会报该子view有多个父view
-            ((ViewGroup) view).removeView(item_view);
-            //移除
-            j --;
-            m--;
-        }
-
-        mCommonAdapter = new CommonAdapter(views, view.getId(), new ArrayList(), view.getContext());
-
-        if(view.getId() != View.NO_ID){
-            mRecyclerView.setId(view.getId());
-        }
 
         //根据LinearLayout的Orientation属性，设置recyclerview的方向
         NgRecyclerView ngRecyclerView = (NgRecyclerView) view;
@@ -75,9 +56,10 @@ public class NgRecyclerViewObserver extends ViewObserver {
             }
         }
 
+        if(view.getId() != View.NO_ID){
+            mRecyclerView.setId(view.getId());
+        }
 
-        //为recyclerview设置适配器
-        mRecyclerView.setAdapter(mCommonAdapter);
         mRecyclerView.addItemDecoration(new CommonItemDecoration(ngRecyclerView.getDivider_color(), view.getContext(), ngRecyclerView.getDivider()));
 
         if(ngRecyclerView.getBackground() != null){
@@ -87,6 +69,32 @@ public class NgRecyclerViewObserver extends ViewObserver {
                 mRecyclerView.setBackgroundDrawable(ngRecyclerView.getBackground());
             }
         }
+        //设置adapter
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                List<NgItemView> views = new ArrayList<>();
+                //3.实例化该viewgroup的所有item
+                for(int j = 0, m = ((ViewGroup) mRecyclerView).getChildCount(); j < m; j++){
+                    View item_view = ((ViewGroup) mRecyclerView).getChildAt(j);
+                    if(item_view instanceof NgItemView){
+                        views.add((NgItemView)item_view);
+                    }
+
+                    //将该子view从父view中移除，不然，在CommonAdapter中把该子view当item时会报该子view有多个父view
+                    ((ViewGroup) mRecyclerView).removeView(item_view);
+                    //移除
+                    j --;
+                    m--;
+                }
+
+                mCommonAdapter = new CommonAdapter(views, mRecyclerView.getId(), mRecyclerView.getContext());
+                //为recyclerview设置适配器
+                mRecyclerView.setAdapter(mCommonAdapter);
+            }
+        });
+
+        setView(mRecyclerView);
     }
 
     @Override
@@ -94,7 +102,7 @@ public class NgRecyclerViewObserver extends ViewObserver {
         if(object == null){
             return;
         }
-        RecyclerView rv = (RecyclerView)getView();
+        final RecyclerView rv = getRecyclerView();
         if(object.equals(NgGo.NG_VISIBLE.VISIBLE)){
             rv.setVisibility(View.VISIBLE);
         }else if(object.equals(NgGo.NG_VISIBLE.INVISIBLE)){
@@ -102,8 +110,26 @@ public class NgRecyclerViewObserver extends ViewObserver {
         }else if(object.equals(NgGo.NG_VISIBLE.GONE)){
             rv.setVisibility(View.GONE);
         }else {
-            rv.setVisibility(View.VISIBLE);
-            rv.getAdapter().notifyDataSetChanged();
+            try {
+                final List<NgModel> list = (List<NgModel>) object;
+                rv.setVisibility(View.VISIBLE);
+                if(rv.getAdapter() != null ){
+                    CommonAdapter adapter = (CommonAdapter) rv.getAdapter();
+                    adapter.setList(list);
+                    adapter.notifyDataSetChanged();
+                }else{
+                    rv.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            CommonAdapter adapter = (CommonAdapter) rv.getAdapter();
+                            adapter.setList(list);
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 

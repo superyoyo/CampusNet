@@ -61,6 +61,7 @@ public class RouterProvider{
                 }
                 transaction.commit();
                 stack.push(fragment);
+                fragment.reInit(routerParams.getBundle());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -112,12 +113,11 @@ public class RouterProvider{
                     e.printStackTrace();
                 }
             }
-
+            fragment.reInit(routerParams.getBundle());
         }else if(routerParams.getLaunchMode() == RouterParams.LAUNCH_MODE.singleTop){
             if(stack.size() > 0 && stack.peek().getClass().getName().equals(clazz.getName())){
                 //栈顶是此fragment
                 fragment = stack.peek();
-                fragment.reInit(routerParams.getBundle());
             }else{
                 //栈顶不是此fragment
                 try {
@@ -138,6 +138,7 @@ public class RouterProvider{
                     e.printStackTrace();
                 }
             }
+            fragment.reInit(routerParams.getBundle());
         }else{
 
         }

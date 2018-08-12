@@ -12,6 +12,7 @@ import com.campus.android_bind.bean.NgGo;
 import com.campus.android_bind.bean.NgModel;
 import com.campus.android_bind.view.NgItemView;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -29,11 +30,11 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonAdapter.CommonHold
     private int mRvId = View.NO_ID;//当前RecyclerView的ID
     private HashMap<String, Integer> mViewTypes;
 
-    public CommonAdapter(List<NgItemView> views, int rvId, List<NgModel> list, Context context) {
+    public CommonAdapter(List<NgItemView> views, int rvId, Context context) {
         mViewTypes = new HashMap<>();
         mRvId = rvId;
         mViews = views;
-        mList = list;
+        mList = new ArrayList<>();
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -47,6 +48,11 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonAdapter.CommonHold
 
     public List<NgModel> getList() {
         return Collections.unmodifiableList(mList);
+    }
+
+    public void setList(List<NgModel> list) {
+        mList.clear();
+        mList.addAll(list);
     }
 
     @Override
@@ -92,6 +98,7 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonAdapter.CommonHold
     public class CommonHolder extends RecyclerView.ViewHolder{
         private SparseArray<View> mViews;
         private NgGo mNgGo;
+        private NgModel mNgModel;
 
         public CommonHolder(View itemView) {
             super(itemView);
@@ -100,8 +107,12 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonAdapter.CommonHold
         }
 
         public void setData(NgModel ngModel){
+            if(mNgModel != null && mNgModel.equals(ngModel)){
+                return;
+            }
             ngModel.removeAll();
-            mNgGo.addNgModel(ngModel).bind();
+            mNgModel = ngModel;
+            mNgGo.addNgModel(mNgModel).bind();
         }
 
         public View getView(int viewId){
