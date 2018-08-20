@@ -1,0 +1,7 @@
+package com.campuslink.eventplugin
+
+class ClassFilterLogic{
+    private Transf
+    ClassFilterLogic() {
+    }
+}

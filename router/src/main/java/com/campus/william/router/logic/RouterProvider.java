@@ -157,7 +157,7 @@ public class RouterProvider{
 
 
     public boolean back() {
-        if(stack.size() == 0){
+        if(stack.size() == 1){
             return true;
         }
         IFragment fragment = stack.peek();

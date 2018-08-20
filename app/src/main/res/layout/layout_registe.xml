@@ -125,6 +125,7 @@
                     app:layoutId="@layout/item_near_school_registe"
                     app:model="school"/>
 
+
             </com.campus.android_bind.view.NgRecyclerView>
         </LinearLayout>
     </FrameLayout>

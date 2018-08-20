@@ -87,6 +87,8 @@ public class RegisteFragment extends IFragment {
     }
 
     private List<NgModel> queryNearSchools(){
+        //TODO 通过Student模块获取学校列表
+
         List<NgModel> schools = new ArrayList<>();
         for(int i = 0; i < 6; i++){
             NgModel school = new NgModel("school");

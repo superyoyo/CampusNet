@@ -76,6 +76,7 @@ public class LoginFragment extends IFragment {
 
     public void login(View view) {
         //TODO 用户点击了登陆
+        String phone = (String)mNgModel.getValue("phone");
     }
 
     public void forgetPassword(View view) {

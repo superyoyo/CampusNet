@@ -14,17 +14,18 @@ import com.campus.android_bind.util.ImageLoader;
 import com.campus.campusnet.ui.page.LoginFragment;
 import com.campus.campusnet.ui.page.RegisteFragment;
 import com.campus.campusnet.ui.state.NavState;
+import com.campus.event_filter.annotation.Action;
 import com.campus.event_filter.callback.ICallback;
 import com.campus.event_filter.request.IRequest;
 import com.campus.event_filter.request.MODE;
 import com.campus.event_filter.response.IResponse;
 import com.campus.william.router.logic.RouterParams;
 import com.campus.william.router.logic.RouterProvider;
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class MainActivity extends AppCompatActivity {
+    private RouterProvider mRouterProvider;
 
-    @Override
+    @Action("HelloWorld!!!!!!")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -56,11 +57,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initRouter(){
-        RouterProvider routerProvider = new RouterProvider(android.R.id.content, getSupportFragmentManager());
-        routerProvider.registe(LoginFragment.class, NavState.LOGIN, "登录");
-        routerProvider.registe(RegisteFragment.class, NavState.REGISTE, "注册");
+        mRouterProvider = new RouterProvider(android.R.id.content, getSupportFragmentManager());
+        mRouterProvider.registe(LoginFragment.class, NavState.LOGIN, "登录");
+        mRouterProvider.registe(RegisteFragment.class, NavState.REGISTE, "注册");
 
-        routerProvider.setState(new RouterParams().setState(NavState.LOGIN).setLaunchMode(RouterParams.LAUNCH_MODE.standard));
+        mRouterProvider.setState(new RouterParams().setState(NavState.LOGIN).setLaunchMode(RouterParams.LAUNCH_MODE.standard));
     }
 
     public void registe(View view) {
@@ -97,4 +98,10 @@ public class MainActivity extends AppCompatActivity {
                 }).submit();
     }
 
+    @Override
+    public void onBackPressed() {
+        if(mRouterProvider.back()){
+            super.onBackPressed();
+        }
+    }
 }

@@ -1,0 +1,28 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+dependencies {
+    //gradle sdk
+    compile gradleApi()
+    //groovy sdk
+    compile localGroovy()
+
+    compile 'com.android.tools.build:gradle:2.2.0'
+    compile 'com.android.tools.build:transform-api:1.5.0'
+    compile 'javassist:javassist:3.12.1.GA'
+}
+
+repositories {
+    mavenCentral()
+}
+
+group='com.campuslink.eventplugin'
+version='1.0.0'
+
+uploadArchives{
+    repositories {
+        mavenDeployer {
+            repository(url: uri('/Users/william/mvn'))
+        }
+    }
+}
