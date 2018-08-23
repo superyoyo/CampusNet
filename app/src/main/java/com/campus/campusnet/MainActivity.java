@@ -25,7 +25,6 @@ import com.campus.william.router.logic.RouterProvider;
 public class MainActivity extends AppCompatActivity {
     private RouterProvider mRouterProvider;
 
-    @Action("HelloWorld!!!!!!")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);

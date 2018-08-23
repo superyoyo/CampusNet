@@ -1,4 +1,4 @@
-package com.campus.event_filter.annotation;
+package com.campus.william.annotationprocessor.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
