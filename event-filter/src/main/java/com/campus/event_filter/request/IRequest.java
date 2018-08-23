@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 public class IRequest {
     private HashMap<String, Object> mParams;
-    private int mAction;
+    private String mAction;
     private int mInMode;
     private int mOutMode;
     private IRequest mNext;
@@ -19,14 +19,14 @@ public class IRequest {
         mParams = new HashMap<>();
         mInMode = MODE.UI;
         mOutMode = MODE.UI;
-        mAction = -1;
+        mAction = "";
     }
 
     public static IRequest obtain(){
         return new IRequest();
     }
 
-    public IRequest action(int action) {
+    public IRequest action(String action) {
         mAction = action;
         return this;
     }
@@ -41,7 +41,7 @@ public class IRequest {
         return this;
     }
 
-    public int getAction() {
+    public String getAction() {
         return mAction;
     }
 

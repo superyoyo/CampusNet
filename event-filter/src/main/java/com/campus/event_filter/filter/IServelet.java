@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.TextUtils;
 
 import com.campus.event_filter.callback.ICallback;
 import com.campus.event_filter.logic.LogicFactory;
@@ -93,7 +94,7 @@ public class IServelet implements Handler.Callback {
                         if(result.getParams().size() > 0){
                             next.initParams(result.getParams());
                         }
-                        if(result.getAction() > -1){
+                        if(TextUtils.isEmpty(result.getAction())){
                             next.action(result.getAction());
                         }
                         onRequest(next, next.getInMode(), next.getOutMode());

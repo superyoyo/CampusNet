@@ -72,12 +72,14 @@ class TransformLogic extends Transform{
         }
         CtMethod ctMethod = ctClass.getDeclaredMethod("onCreate")
         AnnotationsAttribute attribute = (AnnotationsAttribute) ctMethod.getMethodInfo().getAttribute(AnnotationsAttribute.invisibleTag)
-        Annotation[] annotations = attribute.getAnnotations()
-        for(Annotation item : annotations){
-            println("annotation=========" + item.toString())
+        if(attribute != null){
+            Annotation[] annotations = attribute.getAnnotations()
+            for(Annotation item : annotations){
+                println("annotation=========" + item.toString())
+            }
         }
-        ctMethod.insertAfter("System.out.println(\"Hello\");")
-        ctClass.writeFile("/Users/william/CampusNet/app/build/intermediates/classes/release")
+        /*ctMethod.insertAfter("System.out.println(\"Hello\");")
+        ctClass.writeFile("/Users/william.liu/CampusNet/app/build/intermediates/classes/release")*/
         ctClass.detach()
     }
 

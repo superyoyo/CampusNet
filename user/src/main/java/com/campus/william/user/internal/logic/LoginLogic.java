@@ -1,12 +1,13 @@
 package com.campus.william.user.internal.logic;
 
-import com.campus.event_filter.annotation.Action;
 import com.campus.event_filter.logic.ILogic;
 import com.campus.event_filter.request.IRequest;
 import com.campus.event_filter.response.IResponse;
+import com.campus.william.annotationprocessor.annotation.LogicUrl;
 import com.campus.william.net.model.IUser;
 //TODO 通过注解与Transform Api的方式，为
-@Action("Login")
+
+@LogicUrl(url = "LoginLogic")
 public class LoginLogic extends ILogic {
     @Override
     public IResponse onRequest(IRequest iRequest) {

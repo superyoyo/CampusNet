@@ -14,7 +14,6 @@ import com.campus.android_bind.util.ImageLoader;
 import com.campus.campusnet.ui.page.LoginFragment;
 import com.campus.campusnet.ui.page.RegisteFragment;
 import com.campus.campusnet.ui.state.NavState;
-import com.campus.event_filter.annotation.Action;
 import com.campus.event_filter.callback.ICallback;
 import com.campus.event_filter.request.IRequest;
 import com.campus.event_filter.request.MODE;
@@ -65,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void registe(View view) {
         IRequest.obtain()
-                .action(1)
+                .action("")
                 .add("name", "william")
                 .add("sex", "male")
                 .next(MODE.CAMPUTATION, MODE.CAMPUTATION, new ICallback() {
@@ -77,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         IRequest request = IRequest.obtain()
-                                .action(3)
+                                .action("")
                                 .initParams(response.getData())
                                 .add("account", response.getString("account"))
                                 .add("password", response.getString("password"));

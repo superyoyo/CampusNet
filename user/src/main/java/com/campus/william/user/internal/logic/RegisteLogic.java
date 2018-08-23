@@ -3,9 +3,11 @@ package com.campus.william.user.internal.logic;
 import com.campus.event_filter.logic.ILogic;
 import com.campus.event_filter.request.IRequest;
 import com.campus.event_filter.response.IResponse;
+import com.campus.william.annotationprocessor.annotation.LogicUrl;
 
 import java.util.HashMap;
 
+@LogicUrl(url = "RegisteLogic")
 public class RegisteLogic extends ILogic{
 
     @Override

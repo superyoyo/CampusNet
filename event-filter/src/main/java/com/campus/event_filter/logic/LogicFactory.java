@@ -8,6 +8,8 @@ import com.campus.event_filter.filter.IServelet;
 import com.campus.event_filter.request.IRequest;
 import com.campus.event_filter.response.IResponse;
 
+import java.util.HashMap;
+
 public class LogicFactory {
     private static class InstanceHolder{
         public static LogicFactory sInstance = new LogicFactory();
@@ -17,20 +19,20 @@ public class LogicFactory {
         return InstanceHolder.sInstance;
     }
 
-    private SparseArray<Class<? extends ILogic>> mLogicClasses;
-    private LruCache<Integer, ILogic> mLogics;
+    private HashMap<String, Class<? extends ILogic>> mLogicClasses;
+    private LruCache<String, ILogic> mLogics;
 
     private LogicFactory() {
-        mLogicClasses = new SparseArray<>();
+        mLogicClasses = new HashMap<>();
         mLogics = new LruCache<>(10);
     }
 
-    public void registeLogic(int action, Class<? extends ILogic> logic){
+    public void registeLogic(String action, Class<? extends ILogic> logic){
         mLogicClasses.put(action, logic);
     }
 
     public IResponse dealRequest(IRequest request){
-        int action = request.getAction();
+        String action = request.getAction();
         ILogic logic = mLogics.get(action);
         if(logic == null){
             try {

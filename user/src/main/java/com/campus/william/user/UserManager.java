@@ -22,7 +22,7 @@ public class UserManager {
             return;
         }
         mInit = true;
-        LogicFactory.getInstance().registeLogic(1, RegisteLogic.class);
-        LogicFactory.getInstance().registeLogic(2, LoginLogic.class);
+        LogicFactory.getInstance().registeLogic("", RegisteLogic.class);
+        LogicFactory.getInstance().registeLogic("", LoginLogic.class);
     }
 }
