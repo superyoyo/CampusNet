@@ -22,7 +22,7 @@ version='1.0.0'
 uploadArchives{
     repositories {
         mavenDeployer {
-            repository(url: uri('/Users/william.liu/mvn'))
+            repository(url: uri('/Users/william/mvn'))
         }
     }
 }

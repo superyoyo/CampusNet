@@ -15,7 +15,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [ moduleName : "User",  packageName: "com.campus.william.user"]
+                arguments = [ moduleName : "User"]
             }
         }
     }
@@ -41,6 +41,6 @@ dependencies {
     annotationProcessor project(':annotationProcessor')
     implementation project(':event-filter')
     implementation project(':net')
-    //implementation project(':router')
+    implementation project(':router')
     implementation project(path: ':annotationProcessor')
 }

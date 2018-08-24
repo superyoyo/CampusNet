@@ -2,7 +2,7 @@ package com.campus.william.annotationprocessor;
 
 import com.campus.william.annotationprocessor.annotation.AutoLogicMap;
 import com.campus.william.annotationprocessor.annotation.LogicUrl;
-import com.campus.william.annotationprocessor.contant.Constants;
+import com.campus.william.annotationprocessor.constant.Constants;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
@@ -33,7 +33,7 @@ public class MyAnnotationProcessor extends AbstractProcessor{
     private final String MODULE_NAME = "moduleName";
     private final String PACKAGE_NAME = "packageName";
     private String moduleName = "";
-    private String packageName = "";
+    private String packageName = "com.event_filter.logics";
     private Filer mFiler;
 
     @Override
@@ -43,7 +43,6 @@ public class MyAnnotationProcessor extends AbstractProcessor{
         Map<String, String> options = processingEnv.getOptions();
         if (options != null && !options.isEmpty()) {
             moduleName = options.get(MODULE_NAME);
-            packageName = options.get(PACKAGE_NAME);
         }
     }
 

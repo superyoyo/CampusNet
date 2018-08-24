@@ -9,6 +9,7 @@ import com.android.build.api.transform.TransformInput
 import com.android.build.api.transform.TransformInvocation
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.internal.pipeline.TransformManager
+import com.android.builder.model.ClassField
 import javassist.ClassPool
 import javassist.CtClass
 import javassist.CtField
@@ -18,16 +19,26 @@ import javassist.bytecode.AttributeInfo
 import javassist.bytecode.annotation.Annotation
 import org.gradle.api.Project
 
-class TransformLogic extends Transform{
+class TransformLogic extends Transform {
 
     Project mProject
     ClassPool mClassPool
+    String[] modules = null;
+    String applicationId = "";
+    String applicationEntry = "";
+    String outPutPath = "";
+
     TransformLogic(Project project) {
         mProject = project
-        AppExtension android = project.extensions.getByType(AppExtension)
         mClassPool = ClassPool.getDefault()
+        AppExtension android = project.extensions.getByType(AppExtension)
+        Map<String, ClassField> buildConfigs = android.getBuildTypes().getAt(0).getBuildConfigFields();
+        ClassField classField = buildConfigs.get("Modules")
+        println("modules========" + classField.value)
+        modules = classField.value.replace("\"", "").split(";")
+        applicationId = android.getDefaultConfig().getApplicationId()
         List<File> classPaths = android.getBootClasspath()
-        for(File file : classPaths){
+        for (File file : classPaths) {
             String classPath = file.getAbsolutePath()
             println("classPath:=======" + classPath)
             mClassPool.insertClassPath(classPath)
@@ -58,58 +69,52 @@ class TransformLogic extends Transform{
     void transform(TransformInvocation transformInvocation) throws TransformException, InterruptedException, IOException {
         super.transform(transformInvocation)
         dealInputs(transformInvocation.getInputs())
-    }
-
-    private void dealInputs(Collection<TransformInput> inputs){
-        for(TransformInput item : inputs){
-            dealDirectoryInputs(item.getDirectoryInputs())
-            dealJarInputs(item.getJarInputs())
-        }
-
-        CtClass ctClass = mClassPool.getCtClass("com.campus.campusnet.MainActivity")
-        if (ctClass.isFrozen()){
+        CtClass ctClass = mClassPool.getCtClass(applicationEntry)
+        if (ctClass.isFrozen()) {
             ctClass.defrost()
         }
+
         CtMethod ctMethod = ctClass.getDeclaredMethod("onCreate")
-        AnnotationsAttribute attribute = (AnnotationsAttribute) ctMethod.getMethodInfo().getAttribute(AnnotationsAttribute.invisibleTag)
-        if(attribute != null){
-            Annotation[] annotations = attribute.getAnnotations()
-            for(Annotation item : annotations){
-                println("annotation=========" + item.toString())
-            }
+
+        for (String moduleName : modules) {
+            ctMethod.insertAfter("com.event_filter.logics." + moduleName + "LogicMap.registe();")
         }
-        /*ctMethod.insertAfter("System.out.println(\"Hello\");")
-        ctClass.writeFile("/Users/william.liu/CampusNet/app/build/intermediates/classes/release")*/
+        ctClass.writeFile(outPutPath)
         ctClass.detach()
     }
 
-    private void dealDirectoryInputs(Collection<DirectoryInput> inputs){
-        for(DirectoryInput item : inputs){
-            File file = item.getFile()
-            dealDirectory(file)
+    private void dealInputs(Collection<TransformInput> inputs) {
+        for (TransformInput item : inputs) {
+            dealDirectoryInputs(item.getDirectoryInputs())
+            dealJarInputs(item.getJarInputs())
         }
     }
 
-    private void dealDirectory(File file){
-        if(file.isDirectory()){
-            println("insertClassPath=========" + file.getAbsolutePath())
-            mClassPool.insertClassPath(file.getAbsolutePath())
+    private void dealDirectoryInputs(Collection<DirectoryInput> inputs) {
+        for (DirectoryInput item : inputs) {
+            File file = item.getFile()
+            dealDirectory(file, file.getAbsolutePath())
+        }
+    }
+
+    private void dealDirectory(File file, String packageName) {
+        mClassPool.insertClassPath(file.getAbsolutePath())
+        if (file.isDirectory()) {
             File[] files = file.listFiles()
-            for(File item : files){
-                dealDirectory(item)
+            for (File item : files) {
+                dealDirectory(item, packageName)
             }
-        }else{
-            if(file.getName().equals("MainActivity.class")){
-                //mClassPool.importPackage("android.os.Bundle")
-                //mClassPool.importPackage("android.support.v7.app.AppCompatActivity")
+        } else {
+            if (file.getAbsolutePath().endsWith("App.class")) {
+                applicationEntry = applicationId + ".App"
+                outPutPath = packageName;
             }
         }
     }
 
-    private void dealJarInputs(Collection<JarInput> inputs){
-        for(JarInput item : inputs){
+    private void dealJarInputs(Collection<JarInput> inputs) {
+        for (JarInput item : inputs) {
             File file = item.getFile()
-            println("insertClassPath=========" + file.getAbsolutePath())
             mClassPool.insertClassPath(file.getAbsolutePath())
         }
     }
