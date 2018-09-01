@@ -200,6 +200,14 @@ public class RouterProvider{
         return false;
     }
 
+    public void release(){
+        stack.clear();
+        stateMap.clear();
+        mRouterParams = null;
+        stack = null;
+        stateMap = null;
+    }
+
     private static class RouterParams {
         private String state;//要跳转的目标地址
         private int launchMode = LAUNCH_MODE.standard;

@@ -31,6 +31,9 @@ public class RouterFactory {
         if(mRouterProvider != null && mRouterProvider == routerProvicer){
             return;
         }
+        if(mRouterProvider != null){
+            mRouterProvider.release();
+        }
         mRouterProvider = routerProvicer;
         Iterator<String> iterator = mRouters.keySet().iterator();
         while (iterator.hasNext()){

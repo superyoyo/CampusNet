@@ -12,7 +12,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [ moduleName : "App"]
+                arguments = [moduleName: "App"]
             }
         }
     }
@@ -61,4 +61,3 @@ dependencies {
 }
 
 apply plugin: 'com.campuslink.eventplugin.lego'
-

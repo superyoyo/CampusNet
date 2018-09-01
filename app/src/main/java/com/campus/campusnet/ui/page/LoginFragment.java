@@ -21,8 +21,8 @@ import java.util.HashMap;
 public class LoginFragment extends IFragment {
     private Context mContext;
     private View mContainer;
-    private NgModel mNgModel;
-    private NgGo mNgGo;
+    private NgModel mNgModel;//声明一个用来绑定UI的数据对象
+    private NgGo mNgGo;//绑定执行者，只用来初始化的时候进行绑定
 
     private AllPropertyObserver mPropertyObserver = new AllPropertyObserver() {
         @Override
@@ -59,6 +59,15 @@ public class LoginFragment extends IFragment {
     }
 
     private void initNgGo() {
+        /**
+         * 绑定三部曲
+         * 1.创建数据对象NgModel tag为对象名字
+         * 2.创建绑定执行者NgGo 第二个参数为具体的布局文件
+         * 3.通过addNgModel方法给绑定执行者设置第一步创建好的数据对象
+         * 4.如果需要监听数据对象属性的变化，需要调用addAllPropertyObserver方法，添加一个属性变化的监听者
+         * 5.如果通过xml设置了click/longClick方法，则需要把方法的拥有者设置到绑定执行者中
+         * 6.调用inflateAndBind方法生成一个已经绑定好UI及数据的view
+         */
         mNgModel = new NgModel("user");
         mNgGo = new NgGo(mContext, R.layout.layout_login)
                 .addNgModel(mNgModel)
@@ -67,6 +76,7 @@ public class LoginFragment extends IFragment {
         mContainer = mNgGo.inflateAndBind();
     }
 
+    //此方法是通过xml中设置的
     public void deletePassword(View view) {
         mNgModel.addParams("password", "");
     }
