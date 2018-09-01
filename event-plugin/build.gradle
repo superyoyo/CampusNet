@@ -16,13 +16,16 @@ repositories {
     mavenCentral()
 }
 
-group='com.campuslink.eventplugin'
-version='1.0.0'
-
 uploadArchives{
     repositories {
         mavenDeployer {
-            repository(url: uri('/Users/william/mvn'))
+            pom.version = '1.0.0-SNAPSHOT'
+            pom.artifactId = 'event-plugin'
+            pom.groupId = 'com.campuslink.eventplugin'
+
+            repository(url: 'http://c37de815.ngrok.io/repository/campuslink/'){
+                authentication(userName: 'williamliu', password: '15513164627Lj')
+            }
         }
     }
 }

@@ -9,16 +9,22 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [ moduleName : "App"]
+            }
+        }
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "Modules", "\"User;\""
+            buildConfigField "String", "Modules", "\"User;App\""
         }
 
         debug {
-            buildConfigField "String", "Modules", "\"User;\""
+            buildConfigField "String", "Modules", "\"User;App\""
         }
     }
 
@@ -49,6 +55,9 @@ dependencies {
     implementation 'com.readystatesoftware.systembartint:systembartint:1.0.3'
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+
+    annotationProcessor project(':annotationProcessor')
+    implementation project(path: ':annotationProcessor')
 }
 
 apply plugin: 'com.campuslink.eventplugin.lego'

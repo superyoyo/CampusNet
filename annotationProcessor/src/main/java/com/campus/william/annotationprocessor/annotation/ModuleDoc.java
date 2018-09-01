@@ -7,6 +7,9 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.CLASS)
-public @interface AutoLogicMap {
-    String fullName();
+public @interface ModuleDoc {
+    String moduleName();
+    String moduleDesc();
+    int version();
+    String versionName();
 }

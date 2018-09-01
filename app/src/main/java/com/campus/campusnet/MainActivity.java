@@ -1,25 +1,21 @@
 package com.campus.campusnet;
 
-import android.os.Build;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.campus.android_bind.util.ImageLoader;
-import com.campus.campusnet.ui.page.LoginFragment;
-import com.campus.campusnet.ui.page.RegisteFragment;
-import com.campus.campusnet.ui.state.NavState;
 import com.campus.event_filter.callback.ICallback;
 import com.campus.event_filter.request.IRequest;
 import com.campus.event_filter.request.MODE;
 import com.campus.event_filter.response.IResponse;
-import com.campus.william.router.logic.RouterParams;
+import com.campus.william.router.logic.RouterFactory;
 import com.campus.william.router.logic.RouterProvider;
+import com.event_filter.logics.UserLogicMap;
+import com.router.urls.AppRouterMap;
 
 public class MainActivity extends AppCompatActivity {
     private RouterProvider mRouterProvider;
@@ -56,15 +52,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void initRouter(){
         mRouterProvider = new RouterProvider(android.R.id.content, getSupportFragmentManager());
-        mRouterProvider.registe(LoginFragment.class, NavState.LOGIN, "登录");
-        mRouterProvider.registe(RegisteFragment.class, NavState.REGISTE, "注册");
+        RouterFactory.getInstance().setRouterProvicer(mRouterProvider);
 
-        mRouterProvider.setState(new RouterParams().setState(NavState.LOGIN).setLaunchMode(RouterParams.LAUNCH_MODE.standard));
+        mRouterProvider.setState(AppRouterMap.States.LOGIN)
+                .setLaunchMode(RouterProvider.LAUNCH_MODE.standard)
+                .withAnimation(R.anim.anim_entry_from_bottom, R.anim.anim_leave_from_bottom)
+                .navigate();
     }
 
     public void registe(View view) {
         IRequest.obtain()
-                .action("")
+                .action(UserLogicMap.Actions.user_LoginLogic)
                 .add("name", "william")
                 .add("sex", "male")
                 .next(MODE.CAMPUTATION, MODE.CAMPUTATION, new ICallback() {

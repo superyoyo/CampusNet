@@ -12,12 +12,12 @@ import com.campus.android_bind.bean.NgGo;
 import com.campus.android_bind.bean.NgModel;
 import com.campus.android_bind.observer.AllPropertyObserver;
 import com.campus.campusnet.R;
-import com.campus.campusnet.ui.state.NavState;
-import com.campus.william.router.logic.RouterParams;
+import com.campus.william.annotationprocessor.annotation.RouterUrl;
 import com.campus.william.router.ui.IFragment;
 
 import java.util.HashMap;
 
+@RouterUrl(state = "LOGIN", desc = "登陆页面")
 public class LoginFragment extends IFragment {
     private Context mContext;
     private View mContainer;
@@ -43,6 +43,7 @@ public class LoginFragment extends IFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mContext = inflater.getContext();
         initNgGo();
+        mNgModel.addParams("loginState", "登陆");
         return mContainer;
     }
 
@@ -75,19 +76,12 @@ public class LoginFragment extends IFragment {
     }
 
     public void login(View view) {
+        view.setClickable(false);
         //TODO 用户点击了登陆
+        mNgModel.addParams("loginState", "登陆...");
         String phone = (String)mNgModel.getValue("phone");
-    }
+        String password = (String)mNgModel.getValue("password");
 
-    public void forgetPassword(View view) {
-        //TODO 忘记密码
-    }
-
-    public void userRegiste(View view){
-        routerProvider.setState(new RouterParams()
-                .setState(NavState.REGISTE)
-                .setLaunchMode(RouterParams.LAUNCH_MODE.standard)
-                .withAnimation(R.anim.anim_entry_from_bottom, R.anim.anim_leave_from_bottom));
     }
 
     public void lookUp(View view){

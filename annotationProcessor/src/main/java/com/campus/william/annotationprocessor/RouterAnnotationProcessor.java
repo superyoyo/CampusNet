@@ -1,11 +1,12 @@
 package com.campus.william.annotationprocessor;
 
-import com.campus.william.annotationprocessor.annotation.AutoLogicMap;
-import com.campus.william.annotationprocessor.annotation.LogicUrl;
+import com.campus.william.annotationprocessor.annotation.RouterUrl;
+import com.campus.william.annotationprocessor.annotation.StateDesc;
 import com.campus.william.annotationprocessor.constant.Constants;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
@@ -27,13 +28,13 @@ import javax.lang.model.element.TypeElement;
 
 @AutoService(Processor.class)
 @SupportedSourceVersion(SourceVersion.RELEASE_7)
-@SupportedAnnotationTypes({Constants.LogicUrl})
-public class MyAnnotationProcessor extends AbstractProcessor{
-    private final String CLASS = "LogicMap";
+@SupportedAnnotationTypes({Constants.RouterUrl})
+public class RouterAnnotationProcessor extends AbstractProcessor{
+    private final String CLASS = "RouterMap";
     private final String MODULE_NAME = "moduleName";
     private final String PACKAGE_NAME = "packageName";
     private String moduleName = "";
-    private String packageName = "com.event_filter.logics";
+    private String packageName = "com.router.urls";
     private Filer mFiler;
 
     @Override
@@ -54,40 +55,52 @@ public class MyAnnotationProcessor extends AbstractProcessor{
             return false;
         }
 
-        Set<? extends Element> routeElements = roundEnvironment.getElementsAnnotatedWith(LogicUrl.class);
+        Set<? extends Element> routeElements = roundEnvironment.getElementsAnnotatedWith(RouterUrl.class);
 
         if (routeElements == null || routeElements.isEmpty()) {
             return false;
         }
+
+        TypeSpec.Builder typeBuilder = TypeSpec.classBuilder(moduleName + CLASS)
+                .addModifiers(Modifier.PUBLIC, Modifier.FINAL);
+
+        TypeSpec.Builder typeUrlBuilder = TypeSpec.classBuilder("States")
+                .addModifiers(Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL);
 
         MethodSpec registeMethod = null;
         MethodSpec.Builder builder = MethodSpec.methodBuilder("registe")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .returns(void.class);
 
-
         for(Element item : routeElements){
             //注解的值
-            String annotationValue = item.getAnnotation(LogicUrl.class).url();
+            String state = item.getAnnotation(RouterUrl.class).state();
+            String desc = item.getAnnotation(RouterUrl.class).desc();
             try {
-                builder.addStatement("$T.getInstance().registeLogic($S, $T.class)",
-                        ClassName.get("com.campus.event_filter.logic", "LogicFactory"),
-                        annotationValue , ClassName.get((TypeElement) item));
+                builder.addStatement("$T.getInstance().registe($T.class, $S, $S)",
+                        ClassName.get("com.campus.william.router.logic", "RouterFactory"),
+                        ClassName.get((TypeElement) item), state, desc);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+
+            /*AnnotationSpec annotationSpec = AnnotationSpec.builder(StateDesc.class)
+                    .addMember("desc", "$S", desc)
+                    .build();*/
+
+            FieldSpec.Builder fieldBuilder = FieldSpec.builder(String.class,
+                    state.replace("/" ,"_"), Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL);
+            //fieldBuilder.addAnnotation(annotationSpec);
+            fieldBuilder.addJavadoc("$S", desc);
+            typeUrlBuilder.addField(fieldBuilder.initializer("$S", state).build());
         }
 
         registeMethod = builder.build();
 
-        AnnotationSpec annotationSpec = AnnotationSpec.builder(AutoLogicMap.class)
-                .addMember("fullName", "$S", packageName + "." + moduleName + CLASS)
-                .build();
-
-        TypeSpec logicMap = TypeSpec.classBuilder(moduleName + CLASS)
-                .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+        TypeSpec logicMap = typeBuilder
+                .addType(typeUrlBuilder.build())
                 .addMethod(registeMethod)
-                .addAnnotation(annotationSpec)
                 .build();
 
         JavaFile javaFile = JavaFile.builder(packageName, logicMap)

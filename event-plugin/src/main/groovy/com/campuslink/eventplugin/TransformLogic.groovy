@@ -77,7 +77,16 @@ class TransformLogic extends Transform {
         CtMethod ctMethod = ctClass.getDeclaredMethod("onCreate")
 
         for (String moduleName : modules) {
-            ctMethod.insertAfter("com.event_filter.logics." + moduleName + "LogicMap.registe();")
+            try {
+                ctMethod.insertAfter("com.event_filter.logics." + moduleName + "LogicMap.registe();")
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            try {
+                ctMethod.insertAfter("com.router.urls." + moduleName + "RouterMap.registe();")
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
         ctClass.writeFile(outPutPath)
         ctClass.detach()

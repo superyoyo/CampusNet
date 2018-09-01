@@ -7,6 +7,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.CLASS)
-public @interface LogicUrl {
-    String url();
+public @interface RouterUrl {
+    String state();
+    String desc();
 }

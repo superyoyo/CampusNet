@@ -5,6 +5,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
+
 import com.campus.william.router.ui.IFragment;
 
 import java.util.HashMap;
@@ -15,15 +17,17 @@ import java.util.Stack;
  */
 
 public class RouterProvider{
-    private int containerId;
-    private FragmentManager fragmentManager;
+    private int mContainerId;
+    private FragmentManager mFragmentManager;
     private Stack<IFragment> stack;//目前内存中的fragment
     private HashMap<String, Class<? extends IFragment>> stateMap;//状态映射表
+    private RouterParams mRouterParams;
     public RouterProvider(@IdRes int containerId, FragmentManager fragmentManager){
-        this.containerId = containerId;
-        this.fragmentManager = fragmentManager;
+        mContainerId = containerId;
+        mFragmentManager = fragmentManager;
         stack = new Stack<>();
         stateMap = new HashMap<>();
+        mRouterParams = new RouterParams();
     }
 
 
@@ -32,40 +36,62 @@ public class RouterProvider{
         return this;
     }
 
+    public RouterProvider setState(String state){
+        mRouterParams.setState(state);
+        return this;
+    }
 
-    public void setState(RouterParams routerParams){
-        if(TextUtils.isEmpty(routerParams.getState())){
+    public RouterProvider setLaunchMode(int launchMode){
+        mRouterParams.setLaunchMode(launchMode);
+        return this;
+    }
+
+    public RouterProvider addParams(String key, Object value){
+        mRouterParams.addParams(key, value);
+        return this;
+    }
+
+    public RouterProvider withAnimation(int enter, int exit){
+        mRouterParams.withAnimation(enter, exit);
+        return this;
+    }
+
+    public void navigate(){
+        if(TextUtils.isEmpty(mRouterParams.getState())){
             //"状态码不能为空！"
             return;
         }
 
-        if(!stateMap.containsKey(routerParams.getState())){
+        if(!stateMap.containsKey(mRouterParams.getState())){
             //"没有找到此状态，请确认此状态是否在RouterProvider中注册过？"
             return;
         }
 
-        Class<? extends IFragment> clazz = stateMap.get(routerParams.getState());
+        Class<? extends IFragment> clazz = stateMap.get(mRouterParams.getState());
         IFragment fragment = null;
-        if(routerParams.getLaunchMode() == RouterParams.LAUNCH_MODE.standard){
+        if(mRouterParams.getLaunchMode() == LAUNCH_MODE.standard){
             try {
                 fragment = clazz.newInstance();
                 Log.d("liuji", "instance:" + fragment);
                 fragment.setRouterProvider(this);
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                FragmentTransaction transaction = mFragmentManager.beginTransaction();
                 if(stack.size() > 0){
                     transaction.hide(stack.peek());
                 }
-                transaction.add(containerId, fragment);
-                if(routerParams.getAnimation() != null){
-                    transaction.setCustomAnimations(routerParams.getAnimation()[0], routerParams.getAnimation()[1]);
+                transaction.add(mContainerId, fragment);
+                if(mRouterParams.getAnimation() != null){
+                    transaction.setCustomAnimations(mRouterParams.getAnimation()[0]
+                            , mRouterParams.getAnimation()[1]
+                            , mRouterParams.getAnimation()[0]
+                            , mRouterParams.getAnimation()[1]);
                 }
                 transaction.commit();
                 stack.push(fragment);
-                fragment.reInit(routerParams.getBundle());
+                fragment.reInit(mRouterParams.getBundle());
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }else if(routerParams.getLaunchMode() == RouterParams.LAUNCH_MODE.singleTask){
+        }else if(mRouterParams.getLaunchMode() == LAUNCH_MODE.singleTask){
             //判断栈中是否有此fragment
             boolean find = false;
             for(int i = 0, n = stack.size(); i < n; i++){
@@ -87,11 +113,11 @@ public class RouterProvider{
                     }
                 }
 
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                FragmentTransaction transaction = mFragmentManager.beginTransaction();
                 transaction.hide(top);
                 transaction.show(stack.peek());
-                if(routerParams.getAnimation() != null){
-                    transaction.setCustomAnimations(routerParams.getAnimation()[0], routerParams.getAnimation()[1]);
+                if(mRouterParams.getAnimation() != null){
+                    transaction.setCustomAnimations(mRouterParams.getAnimation()[0], mRouterParams.getAnimation()[1]);
                 }
                 transaction.commit();
             }else{
@@ -99,13 +125,13 @@ public class RouterProvider{
                     fragment = clazz.newInstance();
                     fragment.setRouterProvider(this);
 
-                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    FragmentTransaction transaction = mFragmentManager.beginTransaction();
                     if(stack.size() > 0){
                         transaction.hide(stack.peek());
                     }
-                    transaction.add(containerId, fragment);
-                    if(routerParams.getAnimation() != null){
-                        transaction.setCustomAnimations(routerParams.getAnimation()[0], routerParams.getAnimation()[1]);
+                    transaction.add(mContainerId, fragment);
+                    if(mRouterParams.getAnimation() != null){
+                        transaction.setCustomAnimations(mRouterParams.getAnimation()[0], mRouterParams.getAnimation()[1]);
                     }
                     transaction.commit();
                     stack.push(fragment);
@@ -113,8 +139,8 @@ public class RouterProvider{
                     e.printStackTrace();
                 }
             }
-            fragment.reInit(routerParams.getBundle());
-        }else if(routerParams.getLaunchMode() == RouterParams.LAUNCH_MODE.singleTop){
+            fragment.reInit(mRouterParams.getBundle());
+        }else if(mRouterParams.getLaunchMode() == LAUNCH_MODE.singleTop){
             if(stack.size() > 0 && stack.peek().getClass().getName().equals(clazz.getName())){
                 //栈顶是此fragment
                 fragment = stack.peek();
@@ -124,13 +150,13 @@ public class RouterProvider{
                     fragment = clazz.newInstance();
                     fragment.setRouterProvider(this);
 
-                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    FragmentTransaction transaction = mFragmentManager.beginTransaction();
                     if(stack.size() > 0){
                         transaction.hide(stack.peek());
                     }
-                    transaction.add(containerId, fragment);
-                    if(routerParams.getAnimation() != null){
-                        transaction.setCustomAnimations(routerParams.getAnimation()[0], routerParams.getAnimation()[1]);
+                    transaction.add(mContainerId, fragment);
+                    if(mRouterParams.getAnimation() != null){
+                        transaction.setCustomAnimations(mRouterParams.getAnimation()[0], mRouterParams.getAnimation()[1]);
                     }
                     transaction.commit();
                     stack.push(fragment);
@@ -138,7 +164,7 @@ public class RouterProvider{
                     e.printStackTrace();
                 }
             }
-            fragment.reInit(routerParams.getBundle());
+            fragment.reInit(mRouterParams.getBundle());
         }else{
 
         }
@@ -161,7 +187,7 @@ public class RouterProvider{
             return true;
         }
         IFragment fragment = stack.peek();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
         transaction.hide(fragment);
 
         stack.remove(stack.size() - 1);
@@ -173,4 +199,63 @@ public class RouterProvider{
 
         return false;
     }
+
+    private static class RouterParams {
+        private String state;//要跳转的目标地址
+        private int launchMode = LAUNCH_MODE.standard;
+        private HashMap bundle;//数据
+        private int[] animation;
+
+        public RouterParams setLaunchMode(int launchMode){
+            if(launchMode > LAUNCH_MODE.singleInstance || launchMode < LAUNCH_MODE.standard){
+                launchMode = 1;
+            }else {
+                this.launchMode = launchMode;
+            }
+
+            return this;
+        }
+
+        public RouterParams addParams(String key, Object value){
+            if(bundle == null){
+                bundle = new HashMap();
+            }
+            bundle.put(key, value);
+            return this;
+        }
+
+        public RouterParams withAnimation(int enter, int exit){
+            animation = new int[]{enter, exit};
+            return this;
+        }
+
+        public RouterParams setState(String state) {
+            this.state = state;
+            return this;
+        }
+
+        public String getState() {
+            return state;
+        }
+
+        public int getLaunchMode() {
+            return launchMode;
+        }
+
+        public HashMap getBundle() {
+            return bundle;
+        }
+
+        public int[] getAnimation() {
+            return animation;
+        }
+    }
+
+    public static class LAUNCH_MODE{
+        public final static int standard = 1;
+        public final static int singleTop = 2;
+        public final static int singleTask = 3;
+        public final static int singleInstance = 4;
+    }
+
 }

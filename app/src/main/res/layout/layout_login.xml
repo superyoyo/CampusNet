@@ -90,32 +90,7 @@
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="忘记密码"
-            android:textSize="@dimen/text_s"
-            android:textColor="@color/text_primary"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="20dp"
-            android:tag="@{click->forgetPassword}"/>
 
-        <TextView
-            android:id="@+id/ac_main_login_btn"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_gravity="right"
-            android:text="@string/login"
-            android:gravity="center"
-            android:tag="@{click->login}"
-            android:padding="10dp"
-            android:textColor="@color/text_white"
-            android:background="@drawable/btn_black"
-            android:textSize="@dimen/text_s"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -130,12 +105,12 @@
                 android:layout_height="40dp"
                 android:layout_weight="1"
                 android:background="@drawable/btn_info"
-                android:text="@string/registe"
+                android:text="@string/login"
                 android:textColor="@color/text_white"
                 android:gravity="center"
                 android:textSize="@dimen/text_s"
                 android:layout_marginRight="10dp"
-                android:tag="@{click->userRegiste}"/>
+                android:tag="@{click->login;model->user.loginState}"/>
 
             <TextView
                 android:layout_width="0dp"
