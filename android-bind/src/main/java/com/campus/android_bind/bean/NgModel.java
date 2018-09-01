@@ -49,6 +49,41 @@ public class NgModel extends EventSubject {
         return null;
     }
 
+    public String getString(String property){
+        if(mParams.containsKey(property)){
+            return (String) mParams.get(property);
+        }
+        return null;
+    }
+
+    public byte getByte(String property){
+        return (byte) mParams.get(property);
+    }
+
+    public short getShort(String property){
+        return (short) mParams.get(property);
+    }
+
+    public int getInt(String property){
+        return (int) mParams.get(property);
+    }
+
+    public float getFloat(String property){
+        return (float) mParams.get(property);
+    }
+
+    public double getDouble(String property){
+        return (double) mParams.get(property);
+    }
+
+    public boolean getBoolean(String property){
+        return (boolean) mParams.get(property);
+    }
+
+    public char getChar(String property){
+        return (char) mParams.get(property);
+    }
+
     public HashMap<String, Object> getParams(){
         return mParams;
     }

@@ -13,6 +13,12 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [ moduleName : "Student"]
+            }
+        }
+
     }
 
     buildTypes {
@@ -31,8 +37,21 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'com.android.support:appcompat-v7:28.0.0-rc01'
+    implementation 'com.android.support:appcompat-v7:28.0.0-beta01'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    annotationProcessor project(':annotationProcessor')
+
+    implementation project(path: ':event-filter')
+    implementation project(path: ':annotationProcessor')
+    implementation project(path: ':router')
+    implementation project(path: ':android-bind')
+
+    implementation 'com.mikepenz:iconics-core:2.8.2@aar'
+    implementation 'com.mikepenz:typeicons-typeface:+@aar'
+    implementation 'com.mikepenz:fontawesome-typeface:4.7.0.0@aar'
+
+    annotationProcessor 'com.bluelinelabs:logansquare-compiler:1.3.6'
+    implementation 'com.bluelinelabs:logansquare:1.3.6'
 }

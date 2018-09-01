@@ -7,7 +7,7 @@ import com.campus.william.annotationprocessor.annotation.Logic;
 import com.campus.william.annotationprocessor.annotation.ParamType;
 import com.campus.william.net.model.IUser;
 
-@Logic(action = "user/login"
+@Logic(action = "userLogin"
         , desc = "用户通过手机号跟密码进行登陆"
         , params = {"phoneNumber", "password"}
         , paramsDesc = {"电话号码", "登陆密码"}

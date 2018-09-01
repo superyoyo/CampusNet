@@ -20,11 +20,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "Modules", "\"User;App\""
+            buildConfigField "String", "Modules", "\"User;App;Student\""
         }
 
         debug {
-            buildConfigField "String", "Modules", "\"User;App\""
+            buildConfigField "String", "Modules", "\"User;App;Student\""
         }
     }
 
@@ -44,6 +44,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation project(':event-filter')
     implementation project(':user')
+    implementation project(':student')
     implementation project(':net')
     implementation project(':router')
     implementation project(':android-bind')

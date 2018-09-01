@@ -1,3 +1,16 @@
 <resources>
-    <string name="app_name">student</string>
+    <string name="app_name">CampusNet</string>
+    <string name="please_input_school_account">请输入你的学号</string>
+    <string name="please_input_school_password">请输入学号密码</string>
+    <string name="auth">去认证咯</string>
+    <string name="auth_tip">/  认证学生信息是为了净化社交环境，防止非学校人士进入  /</string>
+    <string name="close_page">—— 关闭 ——</string>
+    <string name="lookup">逛一逛</string>
+    <string name="user_agreement">/  用户协议  /</string>
+    <string name="select_school">选择就读的学校</string>
+    <string name="search_school">搜索学校</string>
+    <string name="school_authentic">学校认证</string>
+    <string name="personal_authentic">个人信息</string>
+    <string name="phone_authentic">注册完成</string>
+    <string name="near_school">/  附近的学校  /</string>
 </resources>

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">CampusNet</string>
     <string name="please_input_phone">请输入手机号码</string>
-    <string name="please_input_password">密码（6-20为有效数字或字母）</string>
+    <string name="please_input_phoneCode">请输入手机验证码</string>
     <string name="login">登录</string>
     <string name="registe">注册</string>
     <string name="lookup">逛一逛</string>

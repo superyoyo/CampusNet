@@ -8,13 +8,24 @@
     android:fitsSystemWindows="true"
     android:clipToPadding="true">
 
+    <TextView
+        android:id="@+id/tv_auth_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:textColor="@color/text_gray"
+        android:textSize="@dimen/text_xs"
+        android:text="@string/auth_tip"/>
+
     <LinearLayout
         android:id="@+id/ll_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@color/white_bkg"
-        android:layout_centerInParent="true"
+        android:layout_below="@+id/tv_auth_tip"
         android:padding="10dp">
 
         <FrameLayout
@@ -24,13 +35,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:hint="@string/please_input_phone"
+                android:hint="@string/please_input_school_account"
                 android:maxLength="11"
                 android:maxLines="1"
                 android:inputType="phone"
                 android:textColorHint="@color/text_gray"
                 android:textSize="@dimen/text_s"
-                android:tag="@{model->user.phone}"
+                android:tag="@{model->student.account}"
                 android:background="@null"/>
 
             <com.mikepenz.iconics.view.IconicsImageView
@@ -42,7 +53,7 @@
                 android:padding="2dp"
                 app:iiv_icon="typ-delete"
                 android:clickable="true"
-                android:tag="@{model->user.deletePhone;click->deletePhone}"
+                android:tag="@{model->student.deleteAccount;click->deleteAccount}"
                 tools:visibility="visible"
                 android:visibility="gone"/>
         </FrameLayout>
@@ -54,74 +65,61 @@
             android:background="@color/line_gray"
             android:layout_margin="10dp"/>
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_vertical">
+            android:layout_height="wrap_content">
             <EditText
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:inputType="textPassword"
-                android:hint="@string/please_input_phoneCode"
-                android:maxLength="4"
-                android:maxLines="1"
-                android:textSize="@dimen/text_s"
-                android:layout_below="@+id/v_line"
-                android:textColorHint="@color/text_gray"
-                android:tag="@{model->user.phoneCode}"
-                android:background="@null"/>
-
-            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="5dp"
+                android:padding="10dp"
+                android:hint="@string/please_input_school_password"
+                android:maxLength="11"
+                android:maxLines="1"
+                android:inputType="phone"
+                android:textColorHint="@color/text_gray"
+                android:textSize="@dimen/text_s"
+                android:tag="@{model->student.password}"
+                android:background="@null"/>
+
+            <com.mikepenz.iconics.view.IconicsImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical|right"
+                app:iiv_color="@color/text_gray"
+                android:layout_marginRight="10dp"
+                android:padding="2dp"
+                app:iiv_icon="typ-delete"
                 android:clickable="true"
-                android:text="发送验证码"
-                android:background="@drawable/btn_info"
-                android:textColor="@color/text_white"
-                android:tag="@{click->sendPhoneCode}"/>
-        </LinearLayout>
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:background="@drawable/btn_black"
-            android:text="@string/login"
-            android:textColor="@color/text_white"
-            android:gravity="center"
-            android:textSize="@dimen/text_s"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp"
-            android:tag="@{click->login;model->user.loginState}"/>
+                android:tag="@{model->student.deletePassword;click->deletePassword}"
+                tools:visibility="visible"
+                android:visibility="gone"/>
+        </FrameLayout>
 
     </LinearLayout>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_weight="1"
-        android:text="@string/lookup"
-        android:textColor="@color/text_info"
+        android:background="@drawable/btn_info"
+        android:text="@string/auth"
+        android:textColor="@color/text_white"
         android:gravity="center"
         android:textSize="@dimen/text_s"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/ll_container"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:tag="@{click->lookUp}"/>
+        android:tag="@{click->auth;model->user.authState}"
+        android:layout_below="@+id/ll_container"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/text_s"
-        android:textColor="@color/text_gray"
-        android:text="@string/user_agreement"
         android:layout_alignParentBottom="true"
+        android:text="@string/close_page"
         android:layout_centerHorizontal="true"
         android:layout_margin="20dp"
-        android:tag="@{click->openUserAgreement}"/>
+        android:textSize="@dimen/text_s"
+        android:textColor="@color/text_info"/>
 </RelativeLayout>

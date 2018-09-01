@@ -8,14 +8,13 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.campus.android_bind.util.ImageLoader;
-import com.campus.event_filter.callback.ICallback;
-import com.campus.event_filter.request.IRequest;
-import com.campus.event_filter.request.MODE;
-import com.campus.event_filter.response.IResponse;
+import com.campus.william.net.model.IFile;
+import com.campus.william.net.model.IObject;
+import com.campus.william.net.model.IQuery;
 import com.campus.william.router.logic.RouterFactory;
 import com.campus.william.router.logic.RouterProvider;
-import com.event_filter.logics.UserLogicMap;
-import com.router.urls.AppRouterMap;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private RouterProvider mRouterProvider;
@@ -53,46 +52,8 @@ public class MainActivity extends AppCompatActivity {
     private void initRouter(){
         mRouterProvider = new RouterProvider(android.R.id.content, getSupportFragmentManager());
         RouterFactory.getInstance().setRouterProvicer(mRouterProvider);
-
-        mRouterProvider.setState(AppRouterMap.States.LOGIN)
-                .setLaunchMode(RouterProvider.LAUNCH_MODE.standard)
-                .withAnimation(R.anim.anim_entry_from_bottom, R.anim.anim_leave_from_bottom)
-                .navigate();
     }
 
-    public void registe(View view) {
-        IRequest.obtain()
-                .action(UserLogicMap.Actions.user_LoginLogic)
-                .add("name", "william")
-                .add("sex", "male")
-                .next(MODE.CAMPUTATION, MODE.CAMPUTATION, new ICallback() {
-                    @Override
-                    public IRequest next(IResponse response) {
-                        if(response.getException() != null){
-
-                            return null;
-                        }
-
-                        IRequest request = IRequest.obtain()
-                                .action("")
-                                .initParams(response.getData())
-                                .add("account", response.getString("account"))
-                                .add("password", response.getString("password"));
-                        return request;
-                    }
-                }).next(MODE.IO, MODE.UI, new ICallback() {
-                    @Override
-                    public IRequest next(IResponse response) {
-                        if(response.getException() == null){
-                            Toast.makeText(getApplicationContext()
-                                    ,"name:" + response.getString("name") + " account:" + response.getString("account")
-                                    , Toast.LENGTH_SHORT)
-                                    .show();
-                        }
-                        return null;
-                    }
-                }).submit();
-    }
 
     @Override
     public void onBackPressed() {

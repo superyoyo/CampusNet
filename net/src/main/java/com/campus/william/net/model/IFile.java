@@ -60,7 +60,7 @@ public class IFile {
         return new IFile(LOGIC.DOWNLOAD).setUrl(url).setDownloadPath(downloadPath);
     }
 
-    private void save() throws Exception{
+    public void save() throws Exception{
         if(mMode == LOGIC.UPLOAD){
             //TODO 上传
         }else{
