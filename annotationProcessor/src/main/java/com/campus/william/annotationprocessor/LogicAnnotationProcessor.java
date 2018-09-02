@@ -26,7 +26,7 @@ import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 
 @AutoService(Processor.class)
-@SupportedSourceVersion(SourceVersion.RELEASE_7)
+@SupportedSourceVersion(SourceVersion.RELEASE_8)
 @SupportedAnnotationTypes({Constants.Logic})
 public class LogicAnnotationProcessor extends AbstractProcessor{
     private final String CLASS = "LogicMap";

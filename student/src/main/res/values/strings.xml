@@ -13,4 +13,6 @@
     <string name="personal_authentic">个人信息</string>
     <string name="phone_authentic">注册完成</string>
     <string name="near_school">/  附近的学校  /</string>
+
+    <string name="message_box">信箱</string>
 </resources>

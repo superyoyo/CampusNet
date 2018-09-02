@@ -80,27 +80,34 @@ public class StudentAuthFragment extends IFragment {
         String password = mNgModel.getString("password");
 
         //TODO 点击了认证页面
-//        IRequest request = IRequest.obtain();
-//        request.action(StudentLogicMap.Actions.studentAuthByAccount)
-//                .add("userId", mUserId)
-//                .add("account", account)
-//                .add("password", password)
-//                .add("schoolId", "schoolId")
-//                .next(MODE.IO, MODE.UI, new ICallback(){
-//                    @Override
-//                    public IRequest next(IResponse response) {
-//                        if(response.getException() == null){
-//                            return IRequest.obtain().action(StudentLogicMap.Actions.queryStudentInfo).action("userId", mUserId);
-//                        }else{
-//                            return  null;
-//                        }
-//                    }
-//                }).submit(MODE.IO, MODE.UI, new ICallback(){
-//                    @Override
-//                    public void done(IResponse response) {
-//                        super.done(response);
-//                    }
-//                });
+        IRequest request = IRequest.obtain();
+        request.action(StudentLogicMap.Actions.studentAuthByAccount)
+                .add("userId", mUserId)
+                .add("account", account)
+                .add("password", password)
+                .add("schoolId", "schoolId")
+                .next(MODE.IO, MODE.UI, new ICallback(){
+                    @Override
+                    public IRequest next(IResponse response) {
+                        if(response.getException() == null){
+                            return IRequest.obtain().action(StudentLogicMap.Actions.queryStudentInfo).add("userId", mUserId);
+                        }else{
+                            return  null;
+                        }
+                    }
+                }).submit(MODE.IO, MODE.UI, new ICallback(){
+                    @Override
+                    public void done(IResponse response) {
+                        super.done(response);
+                        if(response.getException() == null){
+                            String account = response.getString("account");
+                            showToast("认证成功");
+                            routerProvider.back();
+                        }else{
+                            showToast("认证失败");
+                        }
+                    }
+                });
     }
 
     private void showToast(String content){

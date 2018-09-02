@@ -1,11 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:fitsSystemWindows="true"
-    android:clipToPadding="true">
+    android:orientation="vertical"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true">
 
-</android.support.constraint.ConstraintLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/topbar_bkg"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp">
+
+        <ImageView
+            android:id="@+id/iv_head"
+            android:layout_width="@dimen/img_l"
+            android:layout_height="@dimen/img_l"
+            android:background="@color/gray_bkg"
+            android:tag="@{miodel->user.head;click->clickHead}"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/iv_head"
+            android:layout_margin="10dp"
+            tools:text="Cute Cat"
+            android:textColor="@color/text_white"
+            android:textSize="@dimen/text_s"
+            android:tag="@{model->user.name}"/>
+
+        <TextView
+            android:id="@+id/tv_visitors"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/iv_head"
+            android:layout_alignBottom="@+id/iv_head"
+            android:layout_margin="10dp"
+            tools:text="最近访客: 1000"
+            android:textColor="@color/text_white"
+            android:textSize="@dimen/text_xs"
+            android:tag="@{model->user.visitors}"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_visitors"
+            android:layout_alignBottom="@+id/tv_visitors"
+            android:layout_marginRight="10dp"
+            tools:text="被心动: 1000"
+            android:textColor="@color/text_white"
+            android:textSize="@dimen/text_xs"
+            android:tag="@{model->user.beloved}"/>
+
+        <TextView
+            android:id="@+id/tv_msgbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/message_box"
+            android:textColor="@color/text_white"
+            android:layout_margin="5dp"
+            android:textSize="@dimen/text_m"/>
+
+        <TextView
+            android:id="@+id/tv_msgcount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/red_cricle"
+            android:textSize="@dimen/text_xxs"
+            android:textColor="@color/text_white"
+            android:padding="2dp"
+            tools:text="999+"
+            android:gravity="center"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:tag="@{model->user.msgCount}"/>
+
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/topbar_height"
+            android:layout_below="@+id/iv_head"
+            android:layout_marginTop="10dp"
+            app:tabContentStart="20dp"
+            app:tabIndicatorColor="#4694f9"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="#4694f9"
+            app:tabTextColor="@color/text_white"></android.support.design.widget.TabLayout>
+    </RelativeLayout>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v4.view.ViewPager>
+</LinearLayout>

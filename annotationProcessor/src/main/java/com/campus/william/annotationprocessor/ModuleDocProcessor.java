@@ -17,7 +17,7 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 
 @AutoService(Processor.class)
-@SupportedSourceVersion(SourceVersion.RELEASE_7)
+@SupportedSourceVersion(SourceVersion.RELEASE_8)
 @SupportedAnnotationTypes(Constants.ModuleDoc)
 public class ModuleDocProcessor extends AbstractProcessor{
     @Override

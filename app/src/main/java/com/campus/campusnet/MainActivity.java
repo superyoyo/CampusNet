@@ -1,28 +1,30 @@
 package com.campus.campusnet;
 
+import android.os.Build;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.Toast;
+import android.view.WindowManager;
 
-import com.bumptech.glide.Glide;
-import com.campus.android_bind.util.ImageLoader;
-import com.campus.william.net.model.IFile;
-import com.campus.william.net.model.IObject;
-import com.campus.william.net.model.IQuery;
-import com.campus.william.router.logic.RouterFactory;
-import com.campus.william.router.logic.RouterProvider;
+import com.campus.campusnet.ui.adapter.ViewPagerAdapter;
+import com.campus.campusnet.ui.page.IndexFragment;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private RouterProvider mRouterProvider;
+    private TabLayout mTabLayout;
+    private ViewPager mViewPager;
+    private List<Fragment> mFragments;
+    private ViewPagerAdapter mAdapter;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //透明状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             //透明导航栏
@@ -39,26 +41,28 @@ public class MainActivity extends AppCompatActivity {
             //Apply the specified drawable or color resource to the system navigation bar.
             //给导航栏设置资源
             tintManager.setNavigationBarTintResource(R.color.topbar_bkg);
-        }*/
-        ImageLoader.getInstance().setListener(new ImageLoader.Listener() {
-            @Override
-            public void loadImage(ImageView imageView, String url) {
-                Glide.with(MainActivity.this).load(url).into(imageView);
-            }
-        });
-        initRouter();
-    }
-
-    private void initRouter(){
-        mRouterProvider = new RouterProvider(android.R.id.content, getSupportFragmentManager());
-        RouterFactory.getInstance().setRouterProvicer(mRouterProvider);
-    }
-
-
-    @Override
-    public void onBackPressed() {
-        if(mRouterProvider.back()){
-            super.onBackPressed();
         }
+
+        initView();
+    }
+
+    private void initView(){
+        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        mViewPager = (ViewPager) findViewById(R.id.vp_container);
+        initAdapter();
+        mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.setTabMode(android.support.design.widget.TabLayout.MODE_SCROLLABLE);
+        String[] tags = {"首页", "心动"};
+        for(int i = 0, n = mTabLayout.getTabCount(); i< n; i++){
+            mTabLayout.getTabAt(i).setText(tags[i]);
+        }
+    }
+
+    private void initAdapter(){
+        mFragments = new ArrayList<>();
+        mFragments.add(new IndexFragment());
+        mFragments.add(new IndexFragment());
+        mAdapter = new ViewPagerAdapter(getSupportFragmentManager(), mFragments);
+        mViewPager.setAdapter(mAdapter);
     }
 }

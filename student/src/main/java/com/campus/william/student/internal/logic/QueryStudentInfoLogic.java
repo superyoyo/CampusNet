@@ -28,7 +28,13 @@ public class QueryStudentInfoLogic extends ILogic{
         try {
             student = storage.query(Student.class, STUDENT_ID);
             HashMap data = new HashMap();
-            data.put("student", student);
+            data.put("userId", student.getUserId());
+            data.put("account", student.getAccount());
+            data.put("schoolId", student.getSchoolId());
+            data.put("schoolName", student.getSchoolName());
+            data.put("majorId", student.getMajorId());
+            data.put("majorName", student.getMajorName());
+
             return new IResponse(data, null);
         } catch (IOException e) {
             e.printStackTrace();
