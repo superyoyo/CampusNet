@@ -10,7 +10,10 @@ import android.view.WindowManager;
 
 import com.campus.campusnet.ui.adapter.ViewPagerAdapter;
 import com.campus.campusnet.ui.page.IndexFragment;
+import com.campus.william.router.logic.RouterFactory;
+import com.campus.william.router.logic.RouterProvider;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.router.urls.UserRouterMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private List<Fragment> mFragments;
     private ViewPagerAdapter mAdapter;
+    private RouterProvider mRouterProvider;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView(){
+        mRouterProvider = new RouterProvider(android.R.id.content, getSupportFragmentManager());
+        RouterFactory.getInstance().setRouterProvicer(mRouterProvider);
+        mRouterProvider.setState(UserRouterMap.States.EditUserInfo).withAnimation(R.anim.anim_entry_from_bottom, R.anim.anim_leave_from_bottom).navigate();
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         mViewPager = (ViewPager) findViewById(R.id.vp_container);
         initAdapter();
@@ -64,5 +71,12 @@ public class MainActivity extends AppCompatActivity {
         mFragments.add(new IndexFragment());
         mAdapter = new ViewPagerAdapter(getSupportFragmentManager(), mFragments);
         mViewPager.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(mRouterProvider.back()){
+            super.onBackPressed();
+        }
     }
 }

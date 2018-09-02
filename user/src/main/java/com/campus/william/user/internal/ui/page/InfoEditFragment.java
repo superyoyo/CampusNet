@@ -49,7 +49,7 @@ public class InfoEditFragment extends IFragment {
 
     private void initNgGo() {
         mNgModel = new NgModel("infoEdit");
-        mNaGo = new NgGo(getActivity(), R.layout.layout_login)
+        mNaGo = new NgGo(getActivity(), R.layout.layout_info_edit)
                 .addNgModel(mNgModel)
                 .addAllPropertyObserver(mPropertyObserver)
                 .addActionContainer(this);
