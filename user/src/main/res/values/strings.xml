@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">CampusNet</string>
+    <string name="please_input_phone">请输入手机号码</string>
+    <string name="please_input_password">密码（6-20为有效数字或字母）</string>
+    <string name="login">登录</string>
+    <string name="register">注册</string>
+    <string name="lookup">逛一逛</string>
+    <string name="user_agreement">/  用户协议  /</string>
+    <string name="select_school">选择就读的学校</string>
+    <string name="search_school">搜索学校</string>
+    <string name="school_authentic">学校认证</string>
+    <string name="personal_authentic">个人信息</string>
+    <string name="phone_authentic">注册完成</string>
+    <string name="near_school">/  附近的学校  /</string>
+    <string name="send_verification_code">发送验证码</string>
+    <string name="import_input_verification_code">请输入验证码</string>
+    <string name="take_a_stroll">逛一逛</string>
+    <string name="love_declaration">快来编辑下爱的宣言吧/n
+        /n
+        /n
+        /n
+    &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;100字</string>
+</resources>

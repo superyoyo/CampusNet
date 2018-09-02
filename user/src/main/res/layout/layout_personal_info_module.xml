@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp">
+
+    <ImageView
+        android:id="@+id/user_infoEdit_Head_portrait"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="18dp"
+        android:src="@drawable/ic_launcher_background"
+        android:tag="@{model->infoEdit.headImage;click->clickHeadImage}" />
+
+    <TextView
+        android:id="@+id/user_infoEdit_nickName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="8dp"
+        android:layout_toLeftOf="@id/user_infoEdit_Head_portrait"
+        android:ellipsize="end"
+        android:gravity="center_vertical|left"
+        android:maxLines="1"
+        android:tag="@{model->infoEdit.nickName}"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/text_l"
+        tools:text="昵称：刘记" />
+
+    <TextView
+        android:id="@+id/user_infoEdit_sexual_orientation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/user_infoEdit_nickName"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="30dp"
+        android:layout_toLeftOf="@id/user_infoEdit_Head_portrait"
+        android:gravity="center_vertical|left"
+        android:tag="@{model->infoEdit.sexualOrientation}"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/text_l"
+        tools:text="性取向：刘记" />
+
+    <TextView
+        android:id="@+id/user_infoEdit_age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/user_infoEdit_sexual_orientation"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="30dp"
+        android:layout_toLeftOf="@id/user_infoEdit_Head_portrait"
+        android:gravity="center_vertical|left"
+        android:tag="@{model->infoEdit.age}"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/text_l"
+        tools:text="年龄：100" />
+
+    <TextView
+        android:id="@+id/user_infoEdit_hometown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/user_infoEdit_age"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="30dp"
+        android:layout_toLeftOf="@id/user_infoEdit_Head_portrait"
+        android:gravity="center_vertical|left"
+        android:tag="@{model->infoEdit.hometown}"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/text_l"
+        tools:text="家乡：北京市海淀区望京某个小角落"
+
+        />
+</RelativeLayout>
