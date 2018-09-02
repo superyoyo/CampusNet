@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:id="@+id/user_infoEdit_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <include
+                android:id="@+id/user_infoEdit_title"
+                layout="@layout/layout_back_title" />
+
+            <include
+                android:id="@+id/user_infoEdit_userInfo"
+                layout="@layout/layout_personal_info_module" />
+            <!--自定义流式布局-->
+            <include
+                android:id="@+id/user_infoEdit_love_declaration"
+                layout="@layout/layout_love_declaration"
+                />
+            <include
+                android:id="@+id/user_infoEdit_background_wall"
+                layout="@layout/layout_info_edit_background_wall"
+                />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

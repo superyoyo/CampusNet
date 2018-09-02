@@ -9,8 +9,8 @@ import com.campus.william.net.model.IUser;
 
 @Logic(action = "userLogin"
         , desc = "用户通过手机号跟密码进行登陆"
-        , params = {"phoneNumber", "password"}
-        , paramsDesc = {"电话号码", "登陆密码"}
+        , params = {"phoneNumber", "token"}
+        , paramsDesc = {"电话号码", "验证码"}
         , paramsType = {ParamType.String, ParamType.String}
         , canNull = {false, false})
 public class LoginLogic extends ILogic {

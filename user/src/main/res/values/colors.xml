@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- bkg -->
+    <color name="topbar_bkg">#4285F4</color>
+    <color name="gray_bkg">#E7E7E7</color>
+    <color name="white_bkg">#fff</color>
+    <color name="red_bkg">#EA4335</color>
+    <color name="black_bkg">#000000</color>
+    <color name="dark_bkg">#666666</color>
+    <!--text color-->
+    <color name="text_white">#fff</color>
+    <color name="text_gray">#666666</color>
+    <color name="text_black">#000000</color>
+    <color name="text_green">#7FBB54</color>
+
+    <color name="text_info">#FF1765E6</color>
+    <color name="text_success">#179652</color>
+    <color name="text_primary">#4285F4</color>
+    <color name="text_warning">#8a6d3b</color>
+    <color name="text_danger">#EA4335</color>
+
+    <color name="line_blue">#007AFF</color>
+    <color name="line_gray">#D9D9D9</color>
+
+    <color name="wheelview_border">#D0D0D0</color>
+
+    <color name="google_blue">#4285F4</color>
+    <color name="google_red">#EA4335</color>
+    <color name="google_green">#34A853</color>
+    <color name="google_yellow">#FBBC05</color>
+
+    <color name="color_blue_3a9efb">#3a9efb</color>
+    <color name="color_c2364b">#c2364b</color>
+    <color name="color_f5455e">#f5455e</color>
+    <color name="video_call_peer_close_cameral_text_shadow">#484848</color>
+    <color name="video_call_peer_close_cameral_text_color">#f1f1f1</color>
+</resources>

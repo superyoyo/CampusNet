@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.campus.william.user.internal.ui.widget.AspectRatioImageView
+            android:id="@+id/user_infoEdit_background_wall_image_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:src="@drawable/user_plus"
+            android:tag="@{model->infoEdit.photoOne;click->addPhoto}"
+            />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <com.campus.william.user.internal.ui.widget.AspectRatioImageView
+                android:id="@+id/user_infoEdit_background_wall_image_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/user_plus"
+                android:padding="4dp"
+                android:tag="@{model->infoEdit.photoTwo;click->addPhoto}"
+                />
+
+            <com.campus.william.user.internal.ui.widget.AspectRatioImageView
+                android:id="@+id/user_infoEdit_background_wall_image_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:src="@drawable/user_plus"
+                android:tag="@{model->infoEdit.photoThree;click->addPhoto}"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.campus.william.user.internal.ui.widget.AspectRatioImageView
+            android:id="@+id/user_infoEdit_background_wall_image_4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/user_plus"
+            android:padding="4dp"
+            android:tag="@{model->infoEdit.photoFour;click->addPhoto}"
+            />
+
+        <com.campus.william.user.internal.ui.widget.AspectRatioImageView
+            android:id="@+id/user_infoEdit_background_wall_image_5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/user_plus"
+            android:padding="4dp"
+            android:tag="@{model->infoEdit.photoFive;click->addPhoto}"
+            />
+
+
+        <com.campus.william.user.internal.ui.widget.AspectRatioImageView
+            android:id="@+id/user_infoEdit_background_wall_image_6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/user_plus"
+            android:padding="4dp"
+            android:tag="@{model->infoEdit.photoSix;click->addPhoto}"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>

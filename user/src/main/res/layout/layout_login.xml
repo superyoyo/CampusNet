@@ -1,0 +1,117 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_bkg"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:id="@+id/user_login_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:tag="@{model->user.loginTitle}"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/text_xs"
+            tools:text="/来啊，恋爱啊/" />
+
+        <EditText
+            android:id="@+id/user_login_input_phoneNumber_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/user_login_title_text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/user_btn_default"
+            android:gravity="center"
+            android:hint="@string/please_input_phone"
+            android:inputType="phone"
+            android:tag="@{model->user.phoneNumber}" />
+
+        <LinearLayout
+            android:id="@+id/user_login_VerificationCode_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/user_login_input_phoneNumber_edit"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/user_login_inputVerificationCode_edit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="8dp"
+                android:layout_weight="6"
+                android:background="@drawable/user_btn_default"
+                android:gravity="center"
+                android:hint="@string/import_input_verification_code"
+                android:tag="@{model->user.code}" />
+
+            <Button
+                android:id="@+id/user_login_sendVerificationCode_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="5"
+                android:background="@drawable/user_btn_info"
+                android:gravity="center"
+                android:tag="@{model->user.sendCode;click->sendVerificationCode}"
+                android:text="@string/send_verification_code"
+                tools:text="发送验证码" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/user_login_login_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/user_login_VerificationCode_container"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/user_btn_success"
+            android:tag="@{model->user.login;click->login}"
+            android:text="@string/login"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/text_s" />
+
+        <TextView
+            android:id="@+id/user_login_stroll_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/user_login_login_btn"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="20dp"
+            android:gravity="right|center_vertical"
+            android:tag="@{model->user.stroll;click->stroll}"
+            android:text="@string/take_a_stroll"
+            android:textColor="@color/text_info"
+            android:textSize="@dimen/text_xs" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="20dp"
+        android:tag="@{click->openUserAgreement}"
+        android:text="@string/user_agreement"
+        android:textColor="@color/text_gray"
+        android:textSize="@dimen/text_s" />
+</RelativeLayout>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    >
+    <!--这里也有一个流式布局-->
+    <EditText
+        android:id="@+id/user_infoEdit_love_declaration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/user_btn_white"
+        android:hint="@string/love_declaration"
+        android:text=""
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/text_s"
+        />
+</LinearLayout>
