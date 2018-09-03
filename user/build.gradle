@@ -41,4 +41,8 @@ dependencies {
     implementation project(':net')
     implementation project(':router')
     implementation project(path: ':android-bind')
+
+    implementation 'com.mikepenz:iconics-core:2.8.2@aar'
+    implementation 'com.mikepenz:typeicons-typeface:+@aar'
+    implementation 'com.mikepenz:fontawesome-typeface:4.7.0.0@aar'
 }

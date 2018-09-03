@@ -1,5 +1,6 @@
 package com.campus.william.user.internal.ui.page;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -77,7 +78,7 @@ public class LoginFragment extends IFragment {
      * @param view 是为了区分可能有多个View绑定了这个方法，通过View来区分
      **/
     public void sendVerificationCode(View view) {
-        final String phoneNumber = (String) mNgModel.getValue("phoneNumber");
+        final String phoneNumber = mNgModel.getString("phoneNumber");
         if (TextUtils.isEmpty(phoneNumber) || phoneNumber.length() != 11) {
             showToasts("请输入正确的手机号");
             return;
@@ -85,7 +86,7 @@ public class LoginFragment extends IFragment {
 
         IRequest.obtain()
                 .action(UserLogicMap.Actions.sendPhoneCode)
-                .add("phoneNumber", mNgModel.getValue("phone"))
+                .add("phoneNumber", mNgModel.getValue("phoneNumber"))
                 .submit(MODE.IO, MODE.UI, new ICallback() {
                     @Override
                     public void done(IResponse response) {
@@ -99,12 +100,12 @@ public class LoginFragment extends IFragment {
      * 登录点击回调
      **/
     public void login(View view) {
-        final String phoneNumber = (String) mNgModel.getValue("phoneNumber");
+        final String phoneNumber = mNgModel.getString("phoneNumber");
         if (TextUtils.isEmpty(phoneNumber) || phoneNumber.length() != 11) {
             showToasts("请输入正确的手机号");
             return;
         }
-        final String code = (String) mNgModel.getValue("code");
+        final String code = mNgModel.getString("code");
         if (TextUtils.isEmpty(code)) {
             showToasts("请输入验证码");
             return;
@@ -118,6 +119,12 @@ public class LoginFragment extends IFragment {
                     @Override
                     public void done(IResponse response) {
                         super.done(response);
+                        if(response.getException() == null){
+                            routerProvider.release();
+                            //跳转至MainActivity,登陆成功
+                        }else{
+                            showToasts(response.getException().getMessage());
+                        }
                     }
                 });
     }
@@ -125,7 +132,7 @@ public class LoginFragment extends IFragment {
     /**
      * 逛一逛点击回调
      **/
-    public void stroll(View view) {
+    public void lookUp(View view) {
       //todo 这里后续对接
         showToasts("暂无该功能");
     }

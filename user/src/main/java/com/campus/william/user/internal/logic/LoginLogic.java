@@ -17,12 +17,17 @@ public class LoginLogic extends ILogic {
     @Override
     public IResponse onRequest(IRequest iRequest) {
         try {
-            IUser.signInByMobilePhone(iRequest.getString("phoneNumber"),
-                    iRequest.getString("password"));
-            return new IResponse(null, null);
+            if(iRequest.getString("phoneNumber").equals("15601295139")
+                    && iRequest.getString("token").equals("1234")){
+                IUser user = IUser.signInByMobilePhone(iRequest.getString("phoneNumber"),
+                        iRequest.getString("password"));
+                return new IResponse(null, null);
+            }else{
+                return new IResponse(null, new Exception("手机号跟验证码不匹配"));
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            return new IResponse(null, e);
+            return new IResponse(null, new Exception("用户登陆失败"));
         }
     }
 }
