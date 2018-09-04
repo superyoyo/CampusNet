@@ -188,13 +188,13 @@ class TransformLogic extends Transform {
         for (JarInput item : inputs) {
             File file = item.getFile()
             mClassPool.insertClassPath(file.getAbsolutePath())
-            /*JarFile jarFile = new JarFile(file)
+            JarFile jarFile = new JarFile(file)
             JarEntry jarEntry = jarFile.getJarEntry("com/campus/event_filter/logic/LogicMap.class")
 
             println("jarEntry:" + jarEntry)
             if(jarEntry != null){
                 createLogicAndRouterMap(file)
-            }*/
+            }
         }
     }
 
@@ -266,8 +266,6 @@ class TransformLogic extends Transform {
 
     private void writeToStream(JarOutputStream stream, File file, String parentPath){
         if(file.isDirectory()){
-            //JarEntry jarEntry = new JarEntry(parentPath + file.getName())
-            //stream.putNextEntry(jarEntry)
             println("=========>" + parentPath + file.getName())
             for(File child : file.listFiles()){
                 writeToStream(stream, child, parentPath + file.getName() + "/")
