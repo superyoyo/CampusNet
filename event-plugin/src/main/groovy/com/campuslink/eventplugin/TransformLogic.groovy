@@ -17,9 +17,6 @@ import javassist.ClassPool
 import javassist.CtClass
 import javassist.CtField
 import javassist.CtMethod
-import javassist.bytecode.AnnotationsAttribute
-import javassist.bytecode.AttributeInfo
-import javassist.bytecode.annotation.Annotation
 import org.gradle.api.Project
 
 class TransformLogic extends Transform {
@@ -93,8 +90,35 @@ class TransformLogic extends Transform {
                 e.printStackTrace()
             }
         }
+        println("outPutPath:" + outPutPath)
         ctClass.writeFile(outPutPath)
         ctClass.detach()
+
+        CtClass logicMapClass = mClassPool.getCtClass("com.campus.event_filter.logic.LogicMap")
+        if (logicMapClass.isFrozen()) {
+            logicMapClass.defrost()
+        }
+
+        for (String moduleName : modules) {
+            try {
+                CtClass modulelogicMapClass = mClassPool.getCtClass("com.event_filter.logics." + moduleName + "LogicMap");
+                if (modulelogicMapClass.isFrozen()) {
+                    modulelogicMapClass.defrost()
+                }
+                CtField[] ctFields = modulelogicMapClass.getDeclaredFields();
+                for(CtField ctField : ctFields){
+                    CtField newField = new CtField(ctField.getType(), ctField.getName(), logicMapClass)
+                    newField.setModifiers(ctField.getModifiers())
+                    logicMapClass.addField(newField, "\""+ctField.getName()+"\"")
+                }
+                modulelogicMapClass.detach()
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
+        logicMapClass.writeFile()
+        logicMapClass.detach()
 
 
 

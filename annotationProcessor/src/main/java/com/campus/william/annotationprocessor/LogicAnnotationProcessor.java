@@ -86,7 +86,11 @@ public class LogicAnnotationProcessor extends AbstractProcessor{
             FieldSpec.Builder fieldBuilder = FieldSpec.builder(String.class,
                     action.replace("/" ,"_"), Modifier.PUBLIC, Modifier.STATIC);
 
-            typeUrlBuilder.addField(fieldBuilder.initializer("$S", action).build());
+            FieldSpec spec = fieldBuilder.initializer("$S", action).build();
+            typeBuilder.addField(spec);
+
+            typeUrlBuilder.addField(spec);
+
             DocManager.getInstance().addLogicDoc(logic);
         }
 
