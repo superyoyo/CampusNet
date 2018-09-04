@@ -19,6 +19,13 @@ import javassist.CtField
 import javassist.CtMethod
 import org.gradle.api.Project
 
+import java.util.jar.JarEntry
+import java.util.jar.JarFile
+import java.util.jar.JarInputStream
+import java.util.jar.JarOutputStream
+import java.util.jar.Manifest
+import java.util.zip.ZipEntry
+
 class TransformLogic extends Transform {
 
     Project mProject
@@ -29,6 +36,7 @@ class TransformLogic extends Transform {
     String applicationEntry = ""
     String outPutPath = ""
     TransformOutputProvider mOutputProvider;
+    byte[] mBytesCache = new byte[1024];
 
     TransformLogic(Project project) {
         mProject = project
@@ -38,6 +46,7 @@ class TransformLogic extends Transform {
         println("modules========" + classField.value)
         modules = classField.value.replace("\"", "").split(";")
         applicationId = android.getDefaultConfig().getApplicationId()
+        applicationEntry = applicationId + ".App"
         mClassPaths = new ArrayList<>();
         List<File> classPaths = android.getBootClasspath()
         for (File file : classPaths) {
@@ -71,6 +80,19 @@ class TransformLogic extends Transform {
         mOutputProvider = transformInvocation.outputProvider;
         dealInputs(transformInvocation.getInputs())
 
+        registeLogicAndRouterInApp()
+
+        //createLogicAndRouterMap()
+
+
+        //此处需要把操作好的文件拷贝到原来的地方
+        for (TransformInput item : transformInvocation.getInputs()) {
+            copyDirectoryInputs(item.getDirectoryInputs())
+            copyJarInputs(item.getJarInputs())
+        }
+    }
+
+    private void registeLogicAndRouterInApp(){
         CtClass ctClass = mClassPool.getCtClass(applicationEntry)
         if (ctClass.isFrozen()) {
             ctClass.defrost()
@@ -90,11 +112,19 @@ class TransformLogic extends Transform {
                 e.printStackTrace()
             }
         }
-        println("outPutPath:" + outPutPath)
         ctClass.writeFile(outPutPath)
         ctClass.detach()
+    }
 
+    private void createLogicAndRouterMap(File jarPath){
+        //1.在jar同级目录下解压jar
+        File unJar = new File(jarPath.getParent() + File.separator + jarPath.getName().split("\\.jar")[0])
+        if(!unJar.exists()){
+            unJar.mkdirs()
+        }
+        unJarFile(jarPath, unJar)
         CtClass logicMapClass = mClassPool.getCtClass("com.campus.event_filter.logic.LogicMap")
+
         if (logicMapClass.isFrozen()) {
             logicMapClass.defrost()
         }
@@ -117,16 +147,10 @@ class TransformLogic extends Transform {
             }
         }
 
-        logicMapClass.writeFile()
+        logicMapClass.writeFile(unJar.getAbsolutePath())
         logicMapClass.detach()
 
-
-
-        //此处需要把操作好的文件拷贝到原来的地方
-        for (TransformInput item : transformInvocation.getInputs()) {
-            copyDirectoryInputs(item.getDirectoryInputs())
-            copyJarInputs(item.getJarInputs())
-        }
+        createJar(unJar, jarPath)
     }
 
     private void dealInputs(Collection<TransformInput> inputs) {
@@ -139,8 +163,8 @@ class TransformLogic extends Transform {
     private void dealDirectoryInputs(Collection<DirectoryInput> inputs) {
         for (DirectoryInput item : inputs) {
             File file = item.getFile()
-            println("dealDirectoryInputs:" + file.getAbsolutePath())
-            dealDirectory(file, file.getAbsolutePath())
+            mClassPool.insertClassPath(file.getAbsolutePath())
+            outPutPath = file.getAbsolutePath();
         }
     }
 
@@ -148,7 +172,6 @@ class TransformLogic extends Transform {
         for (DirectoryInput input : inputs) {
             File outFile = mOutputProvider.getContentLocation(input.name,
                     input.contentTypes, input.scopes, Format.DIRECTORY)
-            println("director out:" + outFile.getAbsolutePath())
             FileUtils.copyDirectory(input.file, outFile)
         }
     }
@@ -157,25 +180,7 @@ class TransformLogic extends Transform {
         for (JarInput input : inputs) {
             File outFile = mOutputProvider.getContentLocation(input.name,
                     input.contentTypes, input.scopes, Format.JAR)
-            println("jar out:" + outFile.getAbsolutePath())
             FileUtils.copyFile(input.file, outFile)
-        }
-    }
-
-    private void dealDirectory(File file, String packageName) {
-        mClassPool.insertClassPath(file.getAbsolutePath())
-        if (file.isDirectory()) {
-            File[] files = file.listFiles()
-            for (File item : files) {
-                dealDirectory(item, packageName)
-            }
-        } else {
-            if (file.getAbsolutePath().endsWith("App.class")) {
-                applicationEntry = applicationId + ".App"
-                outPutPath = packageName
-
-                println("outPutPath:" + outPutPath + " applicationEntry:" + applicationEntry)
-            }
         }
     }
 
@@ -183,6 +188,103 @@ class TransformLogic extends Transform {
         for (JarInput item : inputs) {
             File file = item.getFile()
             mClassPool.insertClassPath(file.getAbsolutePath())
+            /*JarFile jarFile = new JarFile(file)
+            JarEntry jarEntry = jarFile.getJarEntry("com/campus/event_filter/logic/LogicMap.class")
+
+            println("jarEntry:" + jarEntry)
+            if(jarEntry != null){
+                createLogicAndRouterMap(file)
+            }*/
+        }
+    }
+
+
+    //解压jar
+    private void unJarFile(File src , File desDir) throws FileNotFoundException, IOException{
+        JarInputStream jarIn = new JarInputStream(new BufferedInputStream(new FileInputStream(src)));
+        if(!desDir.exists()){
+            desDir.mkdirs()
+        }
+        byte[] bytes = new byte[1024];
+
+        while(true){
+            JarEntry entry = jarIn.getNextJarEntry();
+            if(entry == null){
+                break
+            }
+
+            File desTemp = new File(desDir.getAbsolutePath() + File.separator + entry.getName());
+
+            if(entry.isDirectory()){    //jar条目是空目录
+                if(!desTemp.exists()){
+                    desTemp.mkdirs()
+                }
+            }else{    //jar条目是文件
+                if(!desTemp.getParentFile().exists()){
+                    desTemp.getParentFile().mkdirs()
+                }
+                if(!desTemp.exists()){
+                    desTemp.createNewFile()
+                }
+                BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(desTemp));
+                int len = jarIn.read(bytes, 0, bytes.length);
+                while(len != -1){
+                    out.write(bytes, 0, len);
+                    len = jarIn.read(bytes, 0, bytes.length);
+                }
+
+                out.flush()
+                out.close()
+            }
+            jarIn.closeEntry()
+        }
+
+        //解压Manifest文件
+        Manifest manifest = jarIn.getManifest();
+        if(manifest != null){
+            File manifestFile = new File(desDir.getAbsoluteFile()+File.separator+JarFile.MANIFEST_NAME);
+            if(!manifestFile.getParentFile().exists())manifestFile.getParentFile().mkdirs();
+            BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(manifestFile));
+            manifest.write(out);
+            out.close();
+        }
+
+        //关闭JarInputStream
+        jarIn.close()
+    }
+
+    private void createJar(File src, File des){
+        des.delete()
+        des.createNewFile()
+        JarOutputStream stream=new JarOutputStream(new FileOutputStream(des))
+        for(File file : src.listFiles()){
+            writeToStream(stream, file, "")
+        }
+        stream.flush()
+        stream.close()
+    }
+
+    private void writeToStream(JarOutputStream stream, File file, String parentPath){
+        if(file.isDirectory()){
+            //JarEntry jarEntry = new JarEntry(parentPath + file.getName())
+            //stream.putNextEntry(jarEntry)
+            println("=========>" + parentPath + file.getName())
+            for(File child : file.listFiles()){
+                writeToStream(stream, child, parentPath + file.getName() + "/")
+            }
+        }else{
+            println("=========>" + parentPath + file.getName())
+            JarEntry jarEntry = new JarEntry(parentPath + file.getName())
+            stream.putNextEntry(jarEntry)
+            BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(file))
+
+            int len = inputStream.read(mBytesCache, 0, mBytesCache.length)
+            while(len != -1){
+                stream.write(mBytesCache, 0, len)
+                len = inputStream.read(mBytesCache, 0, mBytesCache.length)
+            }
+
+            inputStream.close()
         }
     }
 }
