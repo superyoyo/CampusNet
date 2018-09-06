@@ -19,7 +19,7 @@ repositories {
 uploadArchives{
     repositories {
         mavenDeployer {
-            pom.version = '1.0.4-SNAPSHOT'
+            pom.version = '1.0.5-SNAPSHOT'
             pom.artifactId = 'event-plugin'
             pom.groupId = 'com.campuslink.eventplugin'
 
