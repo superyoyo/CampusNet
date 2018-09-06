@@ -7,7 +7,6 @@ import com.campus.event_filter.request.IRequest;
 import com.campus.william.router.logic.RouterFactory;
 import com.campus.william.router.logic.RouterProvider;
 import com.event_filter.logics.UserLogicMap;
-import com.router.urls.UserRouterMap;
 
 public class LoginActivity extends AppCompatActivity {
     private RouterProvider mRouterProvider;
@@ -19,9 +18,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initRouter(){
-        mRouterProvider = new RouterProvider(android.R.id.content, getSupportFragmentManager());
-        RouterFactory.getInstance().setRouterProvicer(mRouterProvider);
+        mRouterProvider = RouterFactory.getInstance().obtain(android.R.id.content, getSupportFragmentManager());
+        mRouterProvider.setState("LOGIN").navigate();
+    }
 
-        mRouterProvider.setState(UserRouterMap.States.LOGIN).navigate();
+    private void queryUserInfo(){
+        //查询user的信息
     }
 }

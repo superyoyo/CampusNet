@@ -16,14 +16,14 @@ import com.campus.event_filter.callback.ICallback;
 import com.campus.event_filter.request.IRequest;
 import com.campus.event_filter.request.MODE;
 import com.campus.event_filter.response.IResponse;
-import com.campus.william.annotationprocessor.annotation.RouterUrl;
+import com.campus.william.annotationprocessor.annotation.PageUrl;
 import com.campus.william.router.ui.IFragment;
 import com.campus.william.student.R;
 import com.event_filter.logics.StudentLogicMap;
 
 import java.util.HashMap;
 
-@RouterUrl(state = "studentAuthPage", desc = "学生信息认证页面")
+@PageUrl(state = "studentAuthPage", desc = "学生信息认证页面")
 public class StudentAuthFragment extends IFragment {
     private NgModel mNgModel;
     private NgGo mNgGo;
@@ -81,7 +81,7 @@ public class StudentAuthFragment extends IFragment {
 
         //TODO 点击了认证页面
         IRequest request = IRequest.obtain();
-        request.action(StudentLogicMap.Actions.studentAuthByAccount)
+        request.action("studentAuthByAccount")
                 .add("userId", mUserId)
                 .add("account", account)
                 .add("password", password)
@@ -90,7 +90,8 @@ public class StudentAuthFragment extends IFragment {
                     @Override
                     public IRequest next(IResponse response) {
                         if(response.getException() == null){
-                            return IRequest.obtain().action(StudentLogicMap.Actions.queryStudentInfo).add("userId", mUserId);
+                            return IRequest.obtain().action("queryStudentInfo")
+                                    .add("userId", mUserId);
                         }else{
                             return  null;
                         }

@@ -17,8 +17,8 @@ import java.util.Stack;
  */
 
 public class RouterProvider{
-    private int mContainerId;
-    private FragmentManager mFragmentManager;
+    protected int mContainerId;
+    protected FragmentManager mFragmentManager;
     private Stack<IFragment> stack;//目前内存中的fragment
     private HashMap<String, Class<? extends IFragment>> stateMap;//状态映射表
     private RouterParams mRouterParams;
@@ -169,7 +169,7 @@ public class RouterProvider{
 
         }
 
-
+        mRouterParams.clear();
     }
 
     public void sendMessage(String state, HashMap params) {
@@ -201,62 +201,15 @@ public class RouterProvider{
     }
 
     public void release(){
-        stack.clear();
-        stateMap.clear();
+        if(stack != null){
+            stack.clear();
+        }
+        if(stateMap != null){
+            stateMap.clear();
+        }
         mRouterParams = null;
         stack = null;
         stateMap = null;
-    }
-
-    private static class RouterParams {
-        private String state;//要跳转的目标地址
-        private int launchMode = LAUNCH_MODE.standard;
-        private HashMap bundle;//数据
-        private int[] animation;
-
-        public RouterParams setLaunchMode(int launchMode){
-            if(launchMode > LAUNCH_MODE.singleInstance || launchMode < LAUNCH_MODE.standard){
-                launchMode = 1;
-            }else {
-                this.launchMode = launchMode;
-            }
-
-            return this;
-        }
-
-        public RouterParams addParams(String key, Object value){
-            if(bundle == null){
-                bundle = new HashMap();
-            }
-            bundle.put(key, value);
-            return this;
-        }
-
-        public RouterParams withAnimation(int enter, int exit){
-            animation = new int[]{enter, exit};
-            return this;
-        }
-
-        public RouterParams setState(String state) {
-            this.state = state;
-            return this;
-        }
-
-        public String getState() {
-            return state;
-        }
-
-        public int getLaunchMode() {
-            return launchMode;
-        }
-
-        public HashMap getBundle() {
-            return bundle;
-        }
-
-        public int[] getAnimation() {
-            return animation;
-        }
     }
 
     public static class LAUNCH_MODE{

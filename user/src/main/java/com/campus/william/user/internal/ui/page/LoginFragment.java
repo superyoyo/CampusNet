@@ -1,6 +1,5 @@
 package com.campus.william.user.internal.ui.page;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,18 +17,18 @@ import com.campus.event_filter.callback.ICallback;
 import com.campus.event_filter.request.IRequest;
 import com.campus.event_filter.request.MODE;
 import com.campus.event_filter.response.IResponse;
-import com.campus.william.annotationprocessor.annotation.RouterUrl;
-import com.campus.william.net.model.IUser;
+import com.campus.william.annotationprocessor.annotation.PageUrl;
+import com.campus.william.router.logic.ActivityProvider;
+import com.campus.william.router.logic.RouterFactory;
 import com.campus.william.router.ui.IFragment;
 import com.campus.william.user.R;
-import com.event_filter.logics.UserLogicMap;
 
 import java.util.HashMap;
 
 /**
  * Created by wenge on 2018/9/1.
  */
-@RouterUrl(state = "LOGIN", desc = "登陆页面")
+@PageUrl(state = "LOGIN", desc = "登陆页面")
 public class LoginFragment extends IFragment {
 
     private View mContainer;
@@ -85,7 +84,7 @@ public class LoginFragment extends IFragment {
         }
 
         IRequest.obtain()
-                .action(UserLogicMap.Actions.sendPhoneCode)
+                .action("sendPhoneCode")
                 .add("phoneNumber", mNgModel.getValue("phoneNumber"))
                 .submit(MODE.IO, MODE.UI, new ICallback() {
                     @Override
@@ -112,7 +111,7 @@ public class LoginFragment extends IFragment {
         }
 
         IRequest.obtain().
-                action(UserLogicMap.Actions.userLogin)
+                action("userLogin")
                 .add("phoneNumber", phoneNumber)
                 .add("token", code)
                 .submit(MODE.IO, MODE.UI, new ICallback() {
@@ -121,7 +120,11 @@ public class LoginFragment extends IFragment {
                         super.done(response);
                         if(response.getException() == null){
                             routerProvider.release();
-                            //跳转至MainActivity,登陆成功
+                            getActivity().finish();
+                            ActivityProvider activityProvider = RouterFactory.getInstance()
+                                    .obtainAcitivtyProvider();
+                            activityProvider.setState("MAIN")
+                                    .navigate(getContext());
                         }else{
                             showToasts(response.getException().getMessage());
                         }

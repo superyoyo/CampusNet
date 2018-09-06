@@ -10,14 +10,14 @@ import android.view.WindowManager;
 
 import com.campus.campusnet.ui.adapter.ViewPagerAdapter;
 import com.campus.campusnet.ui.page.IndexFragment;
+import com.campus.william.annotationprocessor.annotation.ActivityUrl;
 import com.campus.william.router.logic.RouterFactory;
 import com.campus.william.router.logic.RouterProvider;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
-import com.router.urls.UserRouterMap;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@ActivityUrl(url = "MAIN")
 public class MainActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
@@ -51,16 +51,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView(){
-        mRouterProvider = new RouterProvider(android.R.id.content, getSupportFragmentManager());
-        RouterFactory.getInstance().setRouterProvicer(mRouterProvider);
-        mRouterProvider.setState(UserRouterMap.States.EditUserInfo).withAnimation(R.anim.anim_entry_from_bottom, R.anim.anim_leave_from_bottom).navigate();
+        mRouterProvider = RouterFactory.getInstance().obtain(android.R.id.content, getSupportFragmentManager());
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         mViewPager = (ViewPager) findViewById(R.id.vp_container);
         initAdapter();
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.setTabMode(android.support.design.widget.TabLayout.MODE_SCROLLABLE);
         String[] tags = {"首页", "心动"};
-        for(int i = 0, n = mTabLayout.getTabCount(); i< n; i++){
+        for(int i = 0, n = tags.length; i< n; i++){
             mTabLayout.getTabAt(i).setText(tags[i]);
         }
     }

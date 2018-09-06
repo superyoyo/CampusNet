@@ -15,7 +15,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [ moduleName : "User"]
+                arguments = [ moduleName : "User", "document_path" : "/Users/william.liu/Desktop/"]
             }
         }
     }

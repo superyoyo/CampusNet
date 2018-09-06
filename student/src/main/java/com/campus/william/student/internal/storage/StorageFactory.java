@@ -32,6 +32,9 @@ public class StorageFactory {
             case Stragegy.DATA_BASE:
                 mStorage = new SharePreferenceStorage(mContext, stragegy);
                 break;
+            case Stragegy.FILE:
+                mStorage = new SharePreferenceStorage(mContext, stragegy);
+                break;
         }
 
         return mStorage;
@@ -39,6 +42,7 @@ public class StorageFactory {
 
     public interface Stragegy{
         public final static String XML = "xml";
+        public final static String FILE = "file";
         public final static String DATA_BASE = "database";
     }
 }

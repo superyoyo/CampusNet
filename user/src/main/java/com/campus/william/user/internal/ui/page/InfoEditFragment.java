@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import com.campus.android_bind.bean.NgGo;
 import com.campus.android_bind.bean.NgModel;
 import com.campus.android_bind.observer.AllPropertyObserver;
-import com.campus.william.annotationprocessor.annotation.RouterUrl;
+import com.campus.william.annotationprocessor.annotation.PageUrl;
 import com.campus.william.router.ui.IFragment;
 import com.campus.william.user.R;
 
@@ -20,7 +20,7 @@ import java.util.HashMap;
 /**
  * Created by wenge on 2018/9/2.
  */
-@RouterUrl(state = "EditUserInfo", desc = "用户信息编辑页")
+@PageUrl(state = "EditUserInfo", desc = "用户信息编辑页")
 public class InfoEditFragment extends IFragment {
 
     private View mContainer;

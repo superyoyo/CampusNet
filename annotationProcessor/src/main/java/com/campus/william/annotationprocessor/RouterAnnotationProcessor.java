@@ -1,10 +1,10 @@
 package com.campus.william.annotationprocessor;
 
-import com.campus.william.annotationprocessor.annotation.RouterUrl;
-import com.campus.william.annotationprocessor.annotation.StateDesc;
+import com.campus.william.annotationprocessor.annotation.ActivityUrl;
+import com.campus.william.annotationprocessor.annotation.PageUrl;
 import com.campus.william.annotationprocessor.constant.Constants;
+import com.campus.william.annotationprocessor.manager.DocManager;
 import com.google.auto.service.AutoService;
-import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
@@ -28,11 +28,10 @@ import javax.lang.model.element.TypeElement;
 
 @AutoService(Processor.class)
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
-@SupportedAnnotationTypes({Constants.RouterUrl})
+@SupportedAnnotationTypes({Constants.PageUrl, Constants.ActivityUrl})
 public class RouterAnnotationProcessor extends AbstractProcessor{
     private final String CLASS = "RouterMap";
     private final String MODULE_NAME = "moduleName";
-    private final String PACKAGE_NAME = "packageName";
     private String moduleName = "";
     private String packageName = "com.router.urls";
     private Filer mFiler;
@@ -55,51 +54,66 @@ public class RouterAnnotationProcessor extends AbstractProcessor{
             return false;
         }
 
-        Set<? extends Element> routeElements = roundEnvironment.getElementsAnnotatedWith(RouterUrl.class);
+        Set<? extends Element> pageEmelements = roundEnvironment.getElementsAnnotatedWith(PageUrl.class);
+        Set<? extends Element> activityEmelements = roundEnvironment.getElementsAnnotatedWith(ActivityUrl.class);
 
-        if (routeElements == null || routeElements.isEmpty()) {
+        if ((pageEmelements == null || pageEmelements.isEmpty()
+                && (activityEmelements == null || activityEmelements.isEmpty()))) {
+            DocManager.getInstance().pageUrlsDone();
+            DocManager.getInstance().activityUrlsDone();
+            DocManager.getInstance().build();
             return false;
         }
 
         TypeSpec.Builder typeBuilder = TypeSpec.classBuilder(moduleName + CLASS)
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL);
 
-        TypeSpec.Builder typeUrlBuilder = TypeSpec.classBuilder("States")
-                .addModifiers(Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL);
-
         MethodSpec registeMethod = null;
         MethodSpec.Builder builder = MethodSpec.methodBuilder("registe")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .returns(void.class);
 
-        for(Element item : routeElements){
-            //注解的值
-            String state = item.getAnnotation(RouterUrl.class).state();
-            String desc = item.getAnnotation(RouterUrl.class).desc();
-            try {
-                builder.addStatement("$T.getInstance().registe($T.class, $S, $S)",
-                        ClassName.get("com.campus.william.router.logic", "RouterFactory"),
-                        ClassName.get((TypeElement) item), state, desc);
-            } catch (Exception e) {
-                e.printStackTrace();
+        if(pageEmelements != null && pageEmelements.size() > 0){
+            for(Element item : pageEmelements){
+                //注解的值
+                PageUrl pageUrl = item.getAnnotation(PageUrl.class);
+                String state = pageUrl.state();
+                String desc = pageUrl.desc();
+                try {
+                    builder.addStatement("$T.getInstance().registeFragment($T.class, $S, $S)",
+                            ClassName.get("com.campus.william.router.logic", "RouterFactory"),
+                            ClassName.get((TypeElement) item), state, desc);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                DocManager.getInstance().addPageUrl(pageUrl);
             }
-
-
-            /*AnnotationSpec annotationSpec = AnnotationSpec.builder(StateDesc.class)
-                    .addMember("desc", "$S", desc)
-                    .build();*/
-
-            FieldSpec.Builder fieldBuilder = FieldSpec.builder(String.class,
-                    state.replace("/" ,"_"), Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL);
-            //fieldBuilder.addAnnotation(annotationSpec);
-            fieldBuilder.addJavadoc("$S", desc);
-            typeUrlBuilder.addField(fieldBuilder.initializer("$S", state).build());
         }
+
+        DocManager.getInstance().pageUrlsDone();
+
+        if (activityEmelements != null && activityEmelements.size() > 0) {
+            for(Element item : activityEmelements){
+                //注解的值
+                ActivityUrl activityUrl = item.getAnnotation(ActivityUrl.class);
+                String state = activityUrl.url();
+                try {
+                    builder.addStatement("$T.getInstance().registeActivity($T.class, $S)",
+                            ClassName.get("com.campus.william.router.logic", "RouterFactory"),
+                            ClassName.get((TypeElement) item), state);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                DocManager.getInstance().addActivityUrl(activityUrl);
+            }
+        }
+
+        DocManager.getInstance().activityUrlsDone();
 
         registeMethod = builder.build();
 
         TypeSpec logicMap = typeBuilder
-                .addType(typeUrlBuilder.build())
                 .addMethod(registeMethod)
                 .build();
 
@@ -110,7 +124,9 @@ public class RouterAnnotationProcessor extends AbstractProcessor{
         }catch (Exception e){
             e.printStackTrace();
         }
+
+        DocManager.getInstance().build();
+
         return true;
     }
-
 }
