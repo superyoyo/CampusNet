@@ -15,7 +15,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [ moduleName : "Student", "document_path" : "/Users/william.liu/Desktop/"]
+                arguments = [ moduleName : "Student", "document_path" : "/Users/william/Desktop/CampusNetDocument/"]
             }
         }
 

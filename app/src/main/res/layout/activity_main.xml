@@ -17,12 +17,12 @@
         android:paddingRight="10dp"
         android:paddingLeft="10dp">
 
-        <ImageView
+        <com.campus.campusnet.ui.widget.CircleImageView
             android:id="@+id/iv_head"
             android:layout_width="@dimen/img_l"
             android:layout_height="@dimen/img_l"
             android:background="@color/gray_bkg"
-            android:tag="@{miodel->user.head;click->clickHead}"/>
+            android:tag="@{model->user.head;click->clickHead}"/>
 
         <TextView
             android:layout_width="wrap_content"

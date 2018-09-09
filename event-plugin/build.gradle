@@ -19,11 +19,11 @@ repositories {
 uploadArchives{
     repositories {
         mavenDeployer {
-            pom.version = '1.0.5-SNAPSHOT'
+            pom.version = '1.0.6-SNAPSHOT'
             pom.artifactId = 'event-plugin'
             pom.groupId = 'com.campuslink.eventplugin'
 
-            repository(url: 'http://c37de815.ngrok.io/repository/campuslink/'){
+            repository(url: 'http://4460f377.ngrok.io/repository/campuslink/'){
                 authentication(userName: 'williamliu', password: '15513164627Lj')
             }
         }

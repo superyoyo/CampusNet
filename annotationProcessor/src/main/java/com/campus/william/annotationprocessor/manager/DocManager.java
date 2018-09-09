@@ -167,6 +167,7 @@ public class DocManager {
     public void build(){
         if(!mModelDocDone || !mLogicsDone || !mPageUrlsDone
                 || !mAcitviitiesUrlsDone || mDocPath == null || mDocPath.equals("")){
+            System.out.println("解析未完成");
             return;
         }
         StringBuilder stringBuilder = new StringBuilder();

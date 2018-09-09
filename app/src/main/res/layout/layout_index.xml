@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.campus.android_bind.view.NgRecyclerView
+        android:id="@+id/rv_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:type="list"
+        app:orientation="vertical"
+        app:divider_height="1dp"
+        app:divider_color="@color/line_gray"
+        android:tag="@{model->cardpage.list}">
+
+        <com.campus.android_bind.view.NgItemView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutId="@layout/item_user_card"
+            app:model="card"/>
+
+    </com.campus.android_bind.view.NgRecyclerView>
+</FrameLayout>

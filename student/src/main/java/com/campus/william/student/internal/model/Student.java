@@ -3,6 +3,8 @@ package com.campus.william.student.internal.model;
 import com.bluelinelabs.logansquare.annotation.JsonField;
 import com.bluelinelabs.logansquare.annotation.JsonObject;
 
+import java.util.List;
+
 @JsonObject
 public class Student {
     public static final String STUDENT_ID = "student_ID";
@@ -13,9 +15,11 @@ public class Student {
     private String mAccount;
     @JsonField(name = "schoolId")
     private String mSchoolId;
-    @JsonField(name = "")
+    @JsonField(name = "schoolName")
     private String mSchoolName;
+    @JsonField(name = "majorId")
     private String mMajorId;
+    @JsonField(name = "majorName")
     private String mMajorName;
 
     public String getUserId() {

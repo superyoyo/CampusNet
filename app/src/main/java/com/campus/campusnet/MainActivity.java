@@ -6,11 +6,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.view.WindowManager;
 
+import com.campus.android_bind.bean.NgGo;
+import com.campus.android_bind.bean.NgModel;
+import com.campus.campusnet.model.User;
 import com.campus.campusnet.ui.adapter.ViewPagerAdapter;
 import com.campus.campusnet.ui.page.IndexFragment;
+import com.campus.event_filter.request.IRequest;
 import com.campus.william.annotationprocessor.annotation.ActivityUrl;
+import com.campus.william.router.logic.ActivityProvider;
 import com.campus.william.router.logic.RouterFactory;
 import com.campus.william.router.logic.RouterProvider;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
@@ -25,9 +31,12 @@ public class MainActivity extends AppCompatActivity {
     private ViewPagerAdapter mAdapter;
     private RouterProvider mRouterProvider;
 
+    private NgGo mNgGo;
+    private NgModel mNgModel;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(initNgGo());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //透明状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -48,6 +57,24 @@ public class MainActivity extends AppCompatActivity {
         }
 
         initView();
+        initData();
+    }
+
+    public void clickHead(View view){
+        ActivityProvider provider = RouterFactory.getInstance().obtainAcitivtyProvider();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("action", "userInfoPage");
+
+        provider.setState("CONTAINER")
+                .setData(bundle)
+                .navigate(this);
+    }
+
+    private View initNgGo(){
+        mNgGo = new NgGo(this, R.layout.activity_main);
+        mNgModel = new NgModel("user");
+        return mNgGo.addNgModel(mNgModel).addActionContainer(this).inflateAndBind();
     }
 
     private void initView(){
@@ -63,6 +90,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void initData(){
+        User user = App.getInstance().currentUser();
+        mNgModel.addParams("head", user.getHead())
+                .addParams("name", user.getName())
+                .addParams("beloved", "被心动：100次")
+                .addParams("visitors", "最近来访：1024次")
+                .addParams("msgCount", 100);
+    }
+
     private void initAdapter(){
         mFragments = new ArrayList<>();
         mFragments.add(new IndexFragment());
@@ -76,5 +112,9 @@ public class MainActivity extends AppCompatActivity {
         if(mRouterProvider.back()){
             super.onBackPressed();
         }
+    }
+
+    private void queryUserInfo(){
+        IRequest.obtain();
     }
 }

@@ -57,8 +57,10 @@ dependencies {
     implementation 'com.mikepenz:typeicons-typeface:+@aar'
     implementation 'com.mikepenz:fontawesome-typeface:4.7.0.0@aar'
     implementation 'com.readystatesoftware.systembartint:systembartint:1.0.3'
-    implementation 'com.github.bumptech.glide:glide:4.7.1'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    annotationProcessor 'com.bluelinelabs:logansquare-compiler:1.3.6'
+    implementation 'com.bluelinelabs:logansquare:1.3.6'
 }
 
 apply plugin: 'com.campuslink.eventplugin.lego'

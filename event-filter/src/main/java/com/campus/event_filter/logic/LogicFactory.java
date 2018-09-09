@@ -40,7 +40,7 @@ public class LogicFactory {
                 if(logicClass == null){
                     Toast.makeText(IServelet.getInstance().getContext(),
                             "没有找到此action对应的Logic类", Toast.LENGTH_SHORT).show();
-                    return new IResponse(null, new Exception("没有找到此action对应的Logic类"));
+                    return new IResponse(null, new Exception("没有找到此" + action + "对应的Logic类"));
                 }
                 logic = logicClass.newInstance();
             } catch (Exception e) {

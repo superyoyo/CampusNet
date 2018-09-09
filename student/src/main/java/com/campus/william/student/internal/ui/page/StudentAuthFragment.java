@@ -63,7 +63,7 @@ public class StudentAuthFragment extends IFragment {
         mNgGo = new NgGo(getContext(), R.layout.student_auth_page)
                 .addNgModel(mNgModel)
                 .addAllPropertyObserver(mAllPropertyObserver)
-                .addActionContainer(toString());
+                .addActionContainer(this);
         mContainer = mNgGo.inflateAndBind();
     }
 
@@ -109,6 +109,12 @@ public class StudentAuthFragment extends IFragment {
                         }
                     }
                 });
+    }
+
+    public void close(View view){
+        if(routerProvider.back()){
+            getActivity().finish();
+        }
     }
 
     private void showToast(String content){

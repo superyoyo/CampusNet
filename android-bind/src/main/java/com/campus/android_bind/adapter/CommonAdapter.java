@@ -57,6 +57,7 @@ public class CommonAdapter extends RecyclerView.Adapter<CommonAdapter.CommonHold
     public void setList(List<NgModel> list) {
         mList.clear();
         mList.addAll(list);
+        notifyDataSetChanged();
     }
 
     @Override

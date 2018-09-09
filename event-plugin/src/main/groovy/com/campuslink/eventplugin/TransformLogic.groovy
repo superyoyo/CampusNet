@@ -188,13 +188,13 @@ class TransformLogic extends Transform {
         for (JarInput item : inputs) {
             File file = item.getFile()
             mClassPool.insertClassPath(file.getAbsolutePath())
-            JarFile jarFile = new JarFile(file)
+            /*JarFile jarFile = new JarFile(file)
             JarEntry jarEntry = jarFile.getJarEntry("com/campus/event_filter/logic/LogicMap.class")
 
             println("jarEntry:" + jarEntry)
             if(jarEntry != null){
                 createLogicAndRouterMap(file)
-            }
+            }*/
         }
     }
 

@@ -22,12 +22,22 @@ public class RouterProvider{
     private Stack<IFragment> stack;//目前内存中的fragment
     private HashMap<String, Class<? extends IFragment>> stateMap;//状态映射表
     private RouterParams mRouterParams;
+    private int mStatusBarHeight;
+
     public RouterProvider(@IdRes int containerId, FragmentManager fragmentManager){
         mContainerId = containerId;
         mFragmentManager = fragmentManager;
         stack = new Stack<>();
         stateMap = new HashMap<>();
         mRouterParams = new RouterParams();
+    }
+
+    public void setStatusBarHeight(int statusBarHeight){
+        mStatusBarHeight = statusBarHeight;
+    }
+
+    public int getStatusBarHeight(){
+        return mStatusBarHeight;
     }
 
 
@@ -183,7 +193,7 @@ public class RouterProvider{
 
 
     public boolean back() {
-        if(stack.size() == 1){
+        if(stack.size() <= 1){
             return true;
         }
         IFragment fragment = stack.peek();
