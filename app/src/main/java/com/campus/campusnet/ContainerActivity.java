@@ -1,5 +1,6 @@
 package com.campus.campusnet;
 
+import android.graphics.Color;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,28 +24,6 @@ public class ContainerActivity extends AppCompatActivity {
 
         mRouterProvider = RouterFactory.getInstance()
                 .obtain(android.R.id.content, getSupportFragmentManager());
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            //透明状态栏
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            //透明导航栏
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            SystemBarTintManager tintManager = new SystemBarTintManager(this);
-            // 激活状态栏
-            tintManager.setStatusBarTintEnabled(true);
-            // enable navigation bar tint 激活导航栏
-            tintManager.setNavigationBarTintEnabled(false);
-            //设置系统栏设置颜色
-            //tintManager.setTintColor(R.color.red);
-            //给状态栏设置颜色
-            tintManager.setStatusBarTintResource(R.color.topbar_bkg);
-            //Apply the specified drawable or color resource to the system navigation bar.
-            //给导航栏设置资源
-            tintManager.setNavigationBarTintResource(R.color.topbar_bkg);
-            mRouterProvider.setStatusBarHeight(tintManager.getConfig().getStatusBarHeight());
-        }
-
-
 
         dealAction();
     }

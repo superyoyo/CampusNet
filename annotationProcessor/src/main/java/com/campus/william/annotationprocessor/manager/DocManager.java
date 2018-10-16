@@ -165,8 +165,9 @@ public class DocManager {
     }
 
     public void build(){
-        if(!mModelDocDone || !mLogicsDone || !mPageUrlsDone
-                || !mAcitviitiesUrlsDone || mDocPath == null || mDocPath.equals("")){
+        if(!mModelDocDone || (mModuleDoc.hasLogicDoc() && !mLogicsDone)
+                || (mModuleDoc.hasRouterDoc() && (!mPageUrlsDone || !mAcitviitiesUrlsDone))
+                || mDocPath == null || mDocPath.equals("")){
             System.out.println("解析未完成");
             return;
         }

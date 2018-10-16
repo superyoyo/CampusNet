@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/white_bkg">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_head"
+            android:layout_width="@dimen/img_m"
+            android:layout_height="@dimen/img_m"
+            android:background="@color/gray_bkg"
+            android:layout_margin="10dp"
+            android:tag="@{model->conversation.logo}"/>
+
+        <TextView
+            android:id="@+id/tv_msgCount"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="7.5dp"
+            android:layout_marginLeft="52.5dp"
+            android:gravity="center"
+            android:background="@drawable/red_cricle"
+            android:text="5"
+            tools:visibility="visible"
+            android:visibility="gone"
+            android:textSize="9sp"
+            android:textColor="@color/text_white"
+            android:tag="@{model->conversation.unReadNum}"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/img_m"
+            android:orientation="vertical"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/iv_head"
+            android:paddingRight="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/tv_conversationTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|right"
+                    tools:text="2015-3-22"
+                    android:layout_alignParentRight="true"
+                    android:textSize="@dimen/text_xs"
+                    android:textColor="@color/text_gray"
+                    android:tag="@{model->conversation.lastTime}"/>
+
+                <TextView
+                    android:id="@+id/tv_conversationName"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|left"
+                    tools:text="name"
+                    android:textSize="@dimen/text_s"
+                    android:textColor="@color/text_black"
+                    android:layout_toLeftOf="@+id/tv_conversationTime"
+                    android:tag="@{model->conversation.title}"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <com.mikepenz.iconics.view.IconicsTextView
+                    android:id="@+id/tv_conversationNotification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/tv_conversationTop"
+                    android:tag="@{model->conversation.notification}"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/text_gray"
+                    android:text="{faw-bell_slash}"
+                    android:textSize="@dimen/text_s"/>
+
+                <TextView
+                    android:id="@+id/tv_conversationTop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/text_gray"
+                    android:textSize="@dimen/text_xs"
+                    android:text="置顶"
+                    android:layout_alignParentRight="true"
+                    android:tag="@{model->conversation.top}"/>
+
+                <TextView
+                    android:id="@+id/item_conversationMessage_TV"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|left"
+                    tools:text="@string/app_name"
+                    android:textColor="@color/text_gray"
+                    android:textSize="@dimen/text_xs"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:clickable="false"
+                    android:layout_toLeftOf="@id/tv_conversationNotification"
+                    android:tag="@{model->conversation.lastMessage}"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/line_gray"
+        android:layout_marginLeft="10dp"/>
+</LinearLayout>

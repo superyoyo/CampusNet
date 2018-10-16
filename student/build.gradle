@@ -36,9 +36,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    annotationProcessor project(':annotationProcessor')
 
     implementation project(path: ':event-filter')
+    annotationProcessor project(':annotationProcessor')
     implementation project(path: ':annotationProcessor')
     implementation project(path: ':router')
     implementation project(path: ':android-bind')

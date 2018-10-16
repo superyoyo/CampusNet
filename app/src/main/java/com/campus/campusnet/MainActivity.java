@@ -13,6 +13,7 @@ import com.campus.android_bind.bean.NgGo;
 import com.campus.android_bind.bean.NgModel;
 import com.campus.campusnet.model.User;
 import com.campus.campusnet.ui.adapter.ViewPagerAdapter;
+import com.campus.campusnet.ui.page.ConversationFragment;
 import com.campus.campusnet.ui.page.IndexFragment;
 import com.campus.event_filter.request.IRequest;
 import com.campus.william.annotationprocessor.annotation.ActivityUrl;
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         initAdapter();
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.setTabMode(android.support.design.widget.TabLayout.MODE_SCROLLABLE);
-        String[] tags = {"首页", "心动"};
+        String[] tags = {"首页", "消息"};
         for(int i = 0, n = tags.length; i< n; i++){
             mTabLayout.getTabAt(i).setText(tags[i]);
         }
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
     private void initAdapter(){
         mFragments = new ArrayList<>();
         mFragments.add(new IndexFragment());
-        mFragments.add(new IndexFragment());
+        mFragments.add(new ConversationFragment());
         mAdapter = new ViewPagerAdapter(getSupportFragmentManager(), mFragments);
         mViewPager.setAdapter(mAdapter);
     }

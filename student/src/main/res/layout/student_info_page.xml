@@ -12,9 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/ll_bottom"
-        android:background="@android:color/transparent"
-        android:clipToPadding="true"
-        android:fitsSystemWindows="true">
+        android:background="@android:color/transparent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,7 +28,7 @@
                 <ImageView
                     android:id="@+id/iv_cover"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="230dp"
                     tools:src="@drawable/psb"
                     android:background="@color/gray_bkg"
                     android:scaleType="fitXY"
@@ -81,12 +79,38 @@
                     android:tag="@{model->user.sign}"/>
             </RelativeLayout>
 
-            <RelativeLayout
+            <com.campus.william.student.internal.ui.widget.album.AlbumView
+                android:id="@+id/v_album"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:padding="10dp"
-                android:background="@color/white_bkg"></RelativeLayout>
+                android:background="@color/white_bkg"
+                android:tag="@{model->user.albums}" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/white_bkg"
+                android:textColor="@color/text_black"
+                android:text="@string/personal_hobby"
+                android:textSize="@dimen/text_s"/>
+            <com.campus.william.student.internal.ui.widget.tag.TagView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_bkg"
+                android:padding="10dp"
+                app:lineMargin="10dp"
+                app:tagMargin="10dp"
+                app:textPaddingBottom="3dp"
+                app:textPaddingLeft="10dp"
+                app:textPaddingRight="10dp"
+                app:textPaddingTop="3dp"
+                android:tag="@{model->user.tags}">
+
+            </com.campus.william.student.internal.ui.widget.tag.TagView>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -123,28 +147,38 @@
                     android:tag="@{model->user.majorName}"
                     android:textColor="@color/text_black"
                     android:textSize="@dimen/text_xs"
-                    android:textStyle="bold"
                     tools:text="计算机科学与工程技术" />
             </RelativeLayout>
         </LinearLayout>
 
     </ScrollView>
 
-    <com.mikepenz.iconics.view.IconicsTextView
-        android:layout_width="@dimen/img_s"
-        android:layout_height="@dimen/img_s"
-        android:layout_margin="10dp"
-        android:gravity="center"
-        />
+    <LinearLayout
+        android:id="@+id/ll_top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/topbar_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
-    <com.mikepenz.iconics.view.IconicsImageView
-        android:layout_width="@dimen/img_s"
-        android:layout_height="@dimen/img_s"
-        android:layout_margin="10dp"
-        android:gravity="center"
-        app:iiv_color="@color/text_white"
-        app:iiv_icon="typ-arrow-left"
-        android:tag="@{click->back}"/>
+        <com.mikepenz.iconics.view.IconicsTextView
+            android:id="@+id/tv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:textColor="@color/text_white"
+            android:textSize="@dimen/text_s"
+            android:text="{faw-chevron-left}"
+            android:tag="@{click->back}"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_s"
+            android:textColor="@color/text_white"
+            android:text="@string/personal_info"/>
+
+    </LinearLayout>
 
 
     <LinearLayout
@@ -163,7 +197,7 @@
             android:textColor="@color/text_black"
             android:gravity="center"
             android:textSize="@dimen/text_s"
-            android:text="聊天"/>
+            android:text="关注"/>
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"

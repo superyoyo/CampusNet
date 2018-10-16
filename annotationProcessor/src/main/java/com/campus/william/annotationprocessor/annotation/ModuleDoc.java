@@ -12,4 +12,6 @@ public @interface ModuleDoc {
     String moduleDesc();
     int version();
     String versionName();
+    boolean hasLogicDoc() default true;
+    boolean hasRouterDoc() default true;
 }

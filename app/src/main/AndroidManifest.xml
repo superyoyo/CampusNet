@@ -24,8 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".ContainerActivity"
-            android:launchMode="singleInstance"></activity>
+        <activity android:name=".ContainerActivity"></activity>
     </application>
 
 </manifest>

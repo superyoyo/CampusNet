@@ -15,4 +15,6 @@
     <string name="near_school">/  附近的学校  /</string>
 
     <string name="message_box">信箱</string>
+    <string name="personal_info">个人信息</string>
+    <string name="personal_hobby">她感兴趣的</string>
 </resources>

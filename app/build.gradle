@@ -20,11 +20,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "Modules", "\"User;App;Student\""
+            buildConfigField "String", "Modules", "\"User;App;Student;Chat\""
         }
 
         debug {
-            buildConfigField "String", "Modules", "\"User;App;Student\""
+            buildConfigField "String", "Modules", "\"User;App;Student;Chat\""
         }
     }
 
@@ -48,6 +48,7 @@ dependencies {
     implementation project(':event-filter')
     implementation project(':user')
     implementation project(':student')
+    implementation project(':chat')
     implementation project(':net')
     implementation project(':router')
     implementation project(':android-bind')
@@ -63,4 +64,4 @@ dependencies {
     implementation 'com.bluelinelabs:logansquare:1.3.6'
 }
 
-apply plugin: 'com.campuslink.eventplugin.lego'
+//apply plugin: 'com.campuslink.eventplugin.lego'

@@ -35,7 +35,7 @@ public class QueryUserInfoLogic extends ILogic{
                 response = new IResponse(data, null);
             }
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             response = new IResponse(null, e);
         }
